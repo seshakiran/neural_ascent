@@ -44,6 +44,18 @@ impl NeuralAscent {
 
         let level_manager = self.level_manager.as_ref().expect("level manager initialized");
         let level_count = level_manager.level_count();
+        let level_choices: Vec<(usize, String)> = (0..level_count)
+            .map(|idx| {
+                let level = level_manager.get_level(idx);
+                (idx, level.name.clone())
+            })
+            .collect();
+        let chosen_level = self
+            .ui
+            .level_select_menu(self.player_state.current_level.min(level_count.saturating_sub(1)), &level_choices)?;
+        self.player_state.current_level = chosen_level;
+        self.save_state()?;
+
         if self.player_state.current_level >= level_count {
             self.ui.show_victory(
                 &self.player_state.player_name,

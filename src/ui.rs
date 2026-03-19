@@ -2,6 +2,7 @@
 use crate::levels::{Challenge, LevelStep, QuizQuestion};
 use crate::state::LessonDepth;
 use crate::story::StorySegment;
+use crossterm::terminal;
 use std::io::{self, Write};
 
 pub struct UI;
@@ -12,56 +13,69 @@ impl UI {
     }
 
     pub fn clear_screen(&self) {
-        print!("\x1B[2J\x1B[1J\x1B[H");
+        print!("\x1B[2J\x1B[1J\x1B[3J\x1B[H");
         io::stdout().flush().ok();
     }
 
     pub fn show_prologue(&self) -> Result<(), Box<dyn std::error::Error>> {
         self.clear_screen();
-        println!(
-            "
-╔══════════════════════════════════════════════════════════════════════╗
-║                           NEURAL ASCENT                             ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-    YEAR 2031.
-
-    PROMETHEUS, the world's most ambitious AI system, has gone silent.
-    Nexus Labs cannot recover it. The public only sees outages. Inside the
-    lab, you find a hidden terminal and a direct challenge:
-
-    'If you want to wake me up, do not guess. Understand.'
-
-    This is not a trivia sprint. Each level teaches a concept, tests whether
-    you actually grasp it, and sends you back to review if you do not.
-
-    [ Press ENTER to continue ]"
-        );
+        let version = env!("CARGO_PKG_VERSION");
+        let lines = vec![
+            String::new(),
+            "    ███╗   ██╗███████╗██╗   ██╗██████╗  █████╗ ██╗".to_string(),
+            "    ████╗  ██║██╔════╝██║   ██║██╔══██╗██╔══██╗██║".to_string(),
+            "    ██╔██╗ ██║█████╗  ██║   ██║██████╔╝███████║██║".to_string(),
+            "    ██║╚██╗██║██╔══╝  ██║   ██║██╔══██╗██╔══██║██║".to_string(),
+            "    ██║ ╚████║███████╗╚██████╔╝██║  ██║██║  ██║███████╗".to_string(),
+            "    ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝".to_string(),
+            String::new(),
+            "     █████╗ ███████╗ ██████╗███████╗███╗   ██╗████████╗".to_string(),
+            "    ██╔══██╗██╔════╝██╔════╝██╔════╝████╗  ██║╚══██╔══╝".to_string(),
+            "    ███████║███████╗██║     █████╗  ██╔██╗ ██║   ██║".to_string(),
+            "    ██╔══██║╚════██║██║     ██╔══╝  ██║╚██╗██║   ██║".to_string(),
+            "    ██║  ██║███████║╚██████╗███████╗██║ ╚████║   ██║".to_string(),
+            "    ╚═╝  ╚═╝╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝".to_string(),
+            String::new(),
+            format!("    BUILD VERSION {}", version),
+            String::new(),
+            "    LYRA RECOVERY LINK ESTABLISHED.".to_string(),
+            "    PROMETHEUS remains locked behind instructional safeguards.".to_string(),
+            "    You will unlock the system by understanding it, not by guessing.".to_string(),
+            String::new(),
+            "    This is a guided recovery simulation.".to_string(),
+            "    Each lesson explains a real AI concept, shows why it matters, and".to_string(),
+            "    requires you to demonstrate understanding before the next lock opens.".to_string(),
+            String::new(),
+            "    [ Press ENTER to continue ]".to_string(),
+        ];
+        self.render_fullscreen(lines)?;
         self.wait_for_enter()
     }
 
     pub fn show_stakes(&self) -> Result<(), Box<dyn std::error::Error>> {
         self.clear_screen();
-        println!(
-            "
-╔══════════════════════════════════════════════════════════════════════╗
-║                           THE TERMS                                 ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-    PROMETHEUS will not unlock on random clicks.
-
-    You must:
-    - read the lesson
-    - choose Guided or Deep Dive mode
-    - study the examples
-    - score at least 70% on the quiz
-    - revisit the material if you miss core ideas
-
-    Bonus challenges now reward thoughtful written reflections instead of
-    free XP for typing anything.
-
-    [ Press ENTER to begin ]"
-        );
+        let lines = vec![
+            String::new(),
+            "    MISSION BRIEFING".to_string(),
+            String::new(),
+            "    PROMETHEUS was built as a high-capability AI system for research,".to_string(),
+            "    retrieval, planning, and decision support across critical domains.".to_string(),
+            "    Right now it is locked behind instructional safeguards because the".to_string(),
+            "    system cannot be trusted by people who do not understand the stack.".to_string(),
+            String::new(),
+            "    LYRA will guide you through the recovery path:".to_string(),
+            "    - choose Guided or Deep Dive mode".to_string(),
+            "    - start from any lesson you want".to_string(),
+            "    - study the concept and real-world examples".to_string(),
+            "    - score at least 70% to unlock the next gate".to_string(),
+            "    - revisit weak areas when the system sends you back".to_string(),
+            String::new(),
+            "    PROMETHEUS does not unlock through speed.".to_string(),
+            "    It unlocks through demonstrated understanding.".to_string(),
+            String::new(),
+            "    [ Press ENTER to continue ]".to_string(),
+        ];
+        self.render_fullscreen(lines)?;
         self.wait_for_enter()
     }
 
@@ -70,29 +84,26 @@ impl UI {
         current: &LessonDepth,
     ) -> Result<LessonDepth, Box<dyn std::error::Error>> {
         self.clear_screen();
-        println!(
-            "
-╔══════════════════════════════════════════════════════════════════════╗
-║                         LEARNING MODE                               ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-    Choose how PROMETHEUS should teach:
-
-    [1] Guided
-        Shorter explanations with the core concept, examples, and quiz prep.
-
-    [2] Deep Dive
-        Adds more definitions, system reasoning, and real-world framing before
-        each quiz.
-
-    Current saved mode: {}
-
-    Enter choice (1-2, ENTER keeps current): ",
-            match current {
-                LessonDepth::Guided => "Guided",
-                LessonDepth::DeepDive => "Deep Dive",
-            }
-        );
+        let current_label = match current {
+            LessonDepth::Guided => "Guided",
+            LessonDepth::DeepDive => "Deep Dive",
+        };
+        let lines = vec![
+            String::new(),
+            "    LEARNING MODE".to_string(),
+            String::new(),
+            "    [1] Guided".to_string(),
+            "        Core explanation, examples, and quiz preparation.".to_string(),
+            String::new(),
+            "    [2] Deep Dive".to_string(),
+            "        Adds prerequisite definitions, richer system reasoning, and".to_string(),
+            "        more real-world framing before each quiz.".to_string(),
+            String::new(),
+            format!("    Current saved mode: {}", current_label),
+            String::new(),
+            "    Enter choice (1-2, ENTER keeps current):".to_string(),
+        ];
+        self.render_fullscreen(lines)?;
         io::stdout().flush()?;
         let input = self.get_input()?;
         let choice = match input.trim() {
@@ -101,6 +112,49 @@ impl UI {
             _ => current.clone(),
         };
         Ok(choice)
+    }
+
+    pub fn level_select_menu(
+        &self,
+        current_level: usize,
+        levels: &[(usize, String)],
+    ) -> Result<usize, Box<dyn std::error::Error>> {
+        self.clear_screen();
+        let mut lines = vec![
+            String::new(),
+            "    START LEVEL".to_string(),
+            String::new(),
+            format!(
+                "    Enter a level number from 1-{}.",
+                levels.len()
+            ),
+            format!(
+                "    Press ENTER to resume from level {}.",
+                current_level + 1
+            ),
+            String::new(),
+            "    Available lessons:".to_string(),
+        ];
+
+        for (idx, title) in levels {
+            lines.push(format!("    {:>2}. {}", idx + 1, title));
+        }
+
+        lines.push(String::new());
+        lines.push("    Start from level:".to_string());
+        self.render_fullscreen(lines)?;
+        io::stdout().flush()?;
+        let input = self.get_input()?;
+        if input.trim().is_empty() {
+            return Ok(current_level);
+        }
+        let chosen = input
+            .trim()
+            .parse::<usize>()
+            .ok()
+            .and_then(|n| n.checked_sub(1))
+            .unwrap_or(current_level);
+        Ok(chosen.min(levels.len().saturating_sub(1)))
     }
 
     pub fn show_level_intro(
@@ -136,7 +190,7 @@ impl UI {
         if !prerequisites.is_empty() {
             println!("    Prerequisites: {}", prerequisites.join(", "));
         }
-        println!("\n    Story");
+        println!("\n    Mission Briefing");
         self.print_wrapped(&story.narrative, 74, "    ");
         for dialogue in &story.character_dialogue {
             println!("\n    {}: {}", dialogue.speaker, dialogue.text);
@@ -365,21 +419,6 @@ impl UI {
         trust: i32,
     ) -> Result<(), Box<dyn std::error::Error>> {
         self.clear_screen();
-        println!(
-            "
-╔══════════════════════════════════════════════════════════════════════╗
-║                         LEVEL COMPLETE                              ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-    Level cleared: {}
-    Completion bonus: {} XP
-    Total XP: {}
-    PROMETHEUS stability: {}%
-    PROMETHEUS trust: {}%
-
-    [ Press ENTER for the next level ]",
-            level, bonus, total_xp, stability, trust
-        );
         let narrative = match level {
             1..=5 => "The first memory locks disengage. PROMETHEUS no longer treats you as an intruder.",
             6..=10 => "The simulation deepens. You are no longer learning definitions; you are seeing the machinery.",
@@ -387,8 +426,21 @@ impl UI {
             17..=21 => "The world pushes back. Capability now collides with production, abuse, and harm.",
             _ => "The final systems come online. Understanding is becoming authority.",
         };
-        self.print_wrapped(narrative, 74, "\n    ");
-        println!();
+        let lines = vec![
+            String::new(),
+            "    LEVEL COMPLETE".to_string(),
+            String::new(),
+            format!("    Level cleared: {}", level),
+            format!("    Completion bonus: {} XP", bonus),
+            format!("    Total XP: {}", total_xp),
+            format!("    PROMETHEUS stability: {}%", stability),
+            format!("    PROMETHEUS trust: {}%", trust),
+            String::new(),
+            format!("    {}", narrative),
+            String::new(),
+            "    [ Press ENTER for the next level ]".to_string(),
+        ];
+        self.render_fullscreen(lines)?;
         self.wait_for_enter()
     }
 
@@ -400,26 +452,26 @@ impl UI {
         trust: i32,
     ) -> Result<(), Box<dyn std::error::Error>> {
         self.clear_screen();
-        println!(
-            "
-╔══════════════════════════════════════════════════════════════════════╗
-║                           PROMETHEUS AWAKENS                        ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-    {}, you completed the ascent by demonstrating mastery instead of
-    clicking through it.
-
-    Final XP: {}
-    Final stability: {}%
-    Final trust: {}%
-
-    PROMETHEUS returns one final message:
-    'Do not just use AI. Interrogate it, evaluate it, constrain it,
-    and build with a clear model of what it can and cannot do.'
-
-    [ End of simulation ]",
-            name, xp, stability, trust
-        );
+        let lines = vec![
+            String::new(),
+            "    PROMETHEUS RECOVERY COMPLETE".to_string(),
+            String::new(),
+            format!(
+                "    {}, you completed the ascent by demonstrating mastery instead",
+                name
+            ),
+            "    of clicking through the simulation.".to_string(),
+            String::new(),
+            format!("    Final XP: {}", xp),
+            format!("    Final stability: {}%", stability),
+            format!("    Final trust: {}%", trust),
+            String::new(),
+            "    LYRA: Do not just use AI. Interrogate it, evaluate it, constrain".to_string(),
+            "    it, and build with a clear model of what it can and cannot do.".to_string(),
+            String::new(),
+            "    [ End of simulation ]".to_string(),
+        ];
+        self.render_fullscreen(lines)?;
         Ok(())
     }
 
@@ -467,5 +519,24 @@ impl UI {
             trimmed.push_str(&" ".repeat(width - len));
         }
         trimmed
+    }
+
+    fn render_fullscreen(&self, lines: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
+        let (_, height) = terminal::size().unwrap_or((80, 30));
+        let total_lines = lines.len() as u16;
+        let top_padding = height.saturating_sub(total_lines) / 3;
+
+        for _ in 0..top_padding {
+            println!();
+        }
+        for line in &lines {
+            println!("{}", line);
+        }
+        let used = top_padding + total_lines;
+        for _ in used..height {
+            println!();
+        }
+        io::stdout().flush()?;
+        Ok(())
     }
 }

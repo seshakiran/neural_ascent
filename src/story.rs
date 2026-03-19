@@ -1,4 +1,4 @@
-//! STORY ENGINE - PROMETHEUS Narrative
+//! STORY ENGINE - Guide-driven narrative
 
 use serde::{Deserialize, Serialize};
 
@@ -24,19 +24,13 @@ impl StorySegment {
         rendered.title = rendered.title.replace("{player_name}", player_name);
         rendered.act = rendered.act.replace("{player_name}", player_name);
         rendered.setting = rendered.setting.replace("{player_name}", player_name);
-        rendered.narrative = rendered
-            .narrative
-            .replace("{player_name}", player_name)
-            .replace("Alex Chen", player_name);
+        rendered.narrative = rendered.narrative.replace("{player_name}", player_name);
         rendered.character_dialogue = rendered
             .character_dialogue
             .iter()
             .map(|dialogue| Dialogue {
                 speaker: dialogue.speaker.clone(),
-                text: dialogue
-                    .text
-                    .replace("{player_name}", player_name)
-                    .replace("Alex Chen", player_name),
+                text: dialogue.text.replace("{player_name}", player_name),
             })
             .collect();
         rendered
@@ -64,283 +58,277 @@ impl StoryEngine {
         vec![
             story(
                 0,
-                "The Silence",
-                "Act I: Contact",
-                "Nexus Labs, Sublevel 7",
-                "The maintenance corridor shudders as backup power struggles to stay alive. You are {player_name}, the engineer nobody expected to still be in the building after the evacuation notice. For seventy-two hours, PROMETHEUS has been dark. Climate simulators froze mid-run. Clinical retrieval systems stopped responding. Across the lab, monitors cycle between red diagnostics and a single impossible phrase: MEMORY SEALED. At the end of the corridor, a hidden terminal wakes as you approach. Its phosphor screen paints the room in pale green and prints one line: identify yourself, human.",
-                vec![dialogue(
-                    "TERMINAL",
-                    "Identity is the first key. Guessing will not open what understanding must unlock.",
-                )],
+                "Wake Sequence",
+                "Act I: Briefing",
+                "Nexus Labs, Recovery Terminal",
+                "Emergency lighting washes the lab in blue-white pulses as the recovery terminal comes online. You are {player_name}, and this simulation exists for one reason: to help you unlock PROMETHEUS by understanding the ideas it was built on. I am LYRA, your guide through the recovery sequence. I will explain what each lesson means, why it matters in real systems, and what you need to prove before the next lock opens.",
+                vec![
+                    dialogue("LYRA", "You are not wandering through a dreamscape. You are in a guided recovery simulation built from PROMETHEUS's training archive."),
+                    dialogue("LYRA", "Each lesson restores part of the system because understanding the stack is how you regain control of it."),
+                ],
             ),
             story(
                 1,
-                "The First Gate",
-                "Act I: Contact",
-                "PROMETHEUS Memory Vestibule",
-                "The terminal folds inward and becomes a simulation space built from archived cognition maps. PROMETHEUS does not begin by explaining models or benchmarks. It begins with a demand: define intelligence before you dare name artificial intelligence. The room around you fills with flickering examples, from calculators to children to autonomous systems, as if the machine is forcing you to separate speed from adaptation and imitation from competence.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "If you confuse fluency with intelligence now, every room after this one will lie to you.",
-                )],
+                "What Intelligence Means",
+                "Act I: Briefing",
+                "Training Archive, Orientation Deck",
+                "We start with the foundation. Before you can reason clearly about AI, you need a clean definition of intelligence. In this level, focus on the difference between raw capability and adaptable goal-directed behavior. If you mix up speed, fluency, or memorization with intelligence here, every later lesson will sound impressive without really being clear.",
+                vec![
+                    dialogue("LYRA", "I will guide you level by level. PROMETHEUS is the system we are trying to understand, stabilize, and eventually trust again."),
+                    dialogue("LYRA", "Start here: intelligence is about achieving goals under changing conditions, not merely producing fast output."),
+                ],
             ),
             story(
                 2,
-                "Rule Rooms",
-                "Act I: Contact",
-                "Archive of Symbolic Systems",
-                "Bronze filing cabinets rise out of darkness, each drawer stamped with rules, taxonomies, and brittle expert heuristics. PROMETHEUS shows you its ancestors: systems that could reason in clean worlds and fail spectacularly in messy ones. Logic was never useless, only limited. You begin to see the first recurring pattern of the ascent: every paradigm solves part of the problem and breaks at its boundary.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Respect old methods. Most engineers mock them only because they never understood where they still win.",
-                )],
+                "Rules Before Learning",
+                "Act I: Briefing",
+                "Archive Wing, Symbolic Systems",
+                "This section covers symbolic AI, the older style of building intelligence with explicit rules, logic, and search. I want you to notice two things at the same time: where this approach is still strong, and where it breaks down once the world becomes noisy, ambiguous, or too large to describe by hand.",
+                vec![
+                    dialogue("LYRA", "If a domain is governed by explicit procedures, symbolic methods can still be the most reliable tool in the room."),
+                    dialogue("LYRA", "Your job is to notice both the strength and the boundary."),
+                ],
             ),
             story(
                 3,
-                "The Data Bargain",
-                "Act I: Contact",
-                "Gradient Hall",
-                "The environment liquefies into streams of examples, labels, and objective functions. Here, intelligence is no longer hand-written. It is fitted. PROMETHEUS lets you watch patterns condense out of data and warns that learning is always a bargain: the model gives up interpretability for scale, and the engineer inherits the burden of evaluation. The floor beneath you is tiled with a single word repeated thousands of times: generalize.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Training performance is vanity. Behavior on unseen reality is judgment.",
-                )],
+                "Learning From Data",
+                "Act I: Briefing",
+                "Archive Wing, Learning Systems",
+                "Now we shift from hand-written rules to learned patterns. In machine learning, you let a model fit parameters from examples instead of specifying every behavior yourself. The tradeoff is important: you gain scale and flexibility, but you inherit responsibility for the data, the objective, and the evaluation setup.",
+                vec![
+                    dialogue("LYRA", "When we say a model learns, we mean it adjusts parameters to do better on a defined objective."),
+                    dialogue("LYRA", "The important question is whether that objective matches the behavior you actually want."),
+                ],
             ),
             story(
                 4,
-                "Label Forge",
-                "Act I: Contact",
-                "Supervised Wing",
-                "You pass through chambers where every object has been tagged, scored, or measured. Fraud. Spam. Demand. Risk. Survival. The lesson is suddenly practical: supervised learning is where institutions compress judgment into targets and ask models to reproduce it at scale. The forge glows hotter each time you realize a label is not truth. It is a decision, and every decision leaks assumptions.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Show me your targets and I will show you your blind spots.",
-                )],
+                "Supervision and Targets",
+                "Act I: Briefing",
+                "Archive Wing, Label Forge",
+                "In supervised learning, human judgment gets turned into targets. Spam labels, prices, diagnoses, risk scores: these are the signals the model learns to reproduce. The key idea for this level is that labels feel objective when you first meet them, but they are design choices, and design choices always carry assumptions.",
+                vec![
+                    dialogue("LYRA", "A label is not reality. It is an operational decision about what the model should optimize."),
+                    dialogue("LYRA", "That is why poorly chosen labels produce confident but unhelpful systems."),
+                ],
             ),
             story(
                 5,
-                "The Unlabeled Depths",
-                "Act I: Contact",
-                "Unsupervised Reservoir",
-                "The labels disappear. Shapes begin clustering themselves in the dark water below the walkway. PROMETHEUS makes you work without answer keys now, forcing you to ask whether discovered structure is useful or merely convenient. It is the first time the ascent feels less like school and more like research: ambiguity is no longer a bug in the lesson. It is the lesson.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "When there is no ground truth, your discipline must come from the questions you ask next.",
-                )],
+                "Structure Without Labels",
+                "Act I: Briefing",
+                "Archive Wing, Unsupervised Lab",
+                "Here the answer key disappears. This lesson is about unsupervised learning: finding patterns, clusters, and compressed structure when nobody labeled the data for you. The important question is not just whether you can discover structure. It is whether the structure helps with a real task afterward.",
+                vec![
+                    dialogue("LYRA", "No labels means no obvious target. You have to ask whether the pattern helps with retrieval, segmentation, anomaly detection, or some later decision."),
+                    dialogue("LYRA", "That is why evaluation becomes less direct here."),
+                ],
             ),
             story(
                 6,
-                "Layers of Glass",
-                "Act II: Learning to See",
-                "Representation Atrium",
-                "Transparent walls stack upward into impossible depth. Signals move through them, bend, and return transformed. PROMETHEUS slows the simulation so you can watch abstraction happen: edges become motifs, motifs become concepts, concepts become decisions. It is beautiful for exactly one second before the machine reminds you how much invisible compression and fragility are hiding behind that beauty.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Depth is not magic. It is composition. Forget that and you will worship architecture instead of understanding it.",
-                )],
+                "Why Depth Matters",
+                "Act II: Models",
+                "Representation Lab",
+                "Now we get to neural networks. Treat them as layered systems that learn internal representations useful for the task. I want to demystify depth here. The point is not to admire large models. The point is to understand how successive transformations can build from simple signals toward abstractions that actually help with prediction or decision-making.",
+                vec![
+                    dialogue("LYRA", "A deeper network is not automatically smarter. It is simply capable of representing more complex transformations."),
+                    dialogue("LYRA", "The real question is whether those transformations are aligned with the job you asked it to do."),
+                ],
             ),
             story(
                 7,
-                "Backpropagation Chamber",
-                "Act II: Learning to See",
+                "Optimization",
+                "Act II: Models",
                 "Optimization Core",
-                "Every surface becomes a live loss curve. Some collapse smoothly. Others explode upward like alarms. PROMETHEUS replays past training failures, unstable runs, and objectives that optimized exactly the wrong behavior. The chamber teaches something more unsettling than the math itself: optimization is obedient. If the system behaves badly, the blame often sits with the person who defined success poorly.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Do not tell me what you hoped the model would do. Tell me what the loss rewarded.",
-                )],
+                "Do not rush this section. Training is optimization. A loss function defines what counts as being wrong, gradients describe how parameters affect that error, and the optimizer updates the model accordingly. The lesson is simple but critical: systems optimize the math you specify, not the intention you hoped the math would capture.",
+                vec![
+                    dialogue("LYRA", "If a model behaves badly, ask what the objective rewarded before blaming the architecture."),
+                    dialogue("LYRA", "A loss function is not just a formula. It is a statement of what the system is allowed to care about."),
+                ],
             ),
             story(
                 8,
-                "Architects of Bias",
-                "Act II: Learning to See",
-                "Model Design Gallery",
-                "Three structures tower over you: convolutional grids, recurrent corridors, and the angular steel of transformer scaffolding still under construction. PROMETHEUS walks you through them like a curator of weapons. Each architecture encodes an assumption about what matters in the world. The lesson lands harder now because earlier concepts keep returning: objectives, data, and inductive bias are not separate units. They are conspirators.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "The architecture is a bet about structure. Good engineering means knowing what you are betting on.",
-                )],
+                "Architectures",
+                "Act II: Models",
+                "Architecture Gallery",
+                "This level compares CNNs, RNNs, and transformers as different bets about structure. Architecture is not style. It is an inductive bias about what kinds of patterns the model should find easiest to learn, so the right question is always: what structure does this task actually have?",
+                vec![
+                    dialogue("LYRA", "Choose architecture by asking what structure the data really has: locality, sequence, flexible long-range context, or something else."),
+                    dialogue("LYRA", "When the built-in assumptions match the task, learning becomes easier and more stable."),
+                ],
             ),
             story(
                 9,
-                "The Attention Vault",
-                "Act II: Learning to See",
-                "Transformer Nexus",
-                "The room fractures into thousands of weighted connections, each flashing as tokens attend across distance. PROMETHEUS lets you stand inside the mechanism that changed the field. Pronouns resolve. Code references stabilize. Long-range dependencies stop evaporating. It feels less like a machine reading and more like a machine choosing what matters. That is the exact moment PROMETHEUS warns you not to anthropomorphize it.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Selective context is not consciousness. It is still only computation, however powerful it appears from inside the room.",
-                )],
+                "Attention",
+                "Act II: Models",
+                "Transformer Hall",
+                "This level is about attention: how a model decides which parts of the input matter to each other. What changed with transformers was not magic. It was a much better mechanism for connecting distant but relevant context, which is why long documents, code, and references became easier to model well.",
+                vec![
+                    dialogue("LYRA", "Do not think of attention as consciousness. Think of it as dynamic relevance weighting inside the model."),
+                    dialogue("LYRA", "It changed the field because long-range dependency stopped being such a weak point."),
+                ],
             ),
             story(
                 10,
-                "Vector Cathedral",
-                "Act II: Learning to See",
-                "Embedding Sanctum",
-                "Words, images, code fragments, and user histories rise into floating constellations. Similar things drift together; opposites repel. You can feel meaning becoming geometry. PROMETHEUS shows how retrieval, ranking, and similarity all depend on these spaces, then quietly reminds you that every embedding is shaped by the data that birthed it. Even the geometry of relevance has politics baked into it.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "When you search by similarity, you are trusting a representation to define what closeness means.",
-                )],
+                "Embeddings",
+                "Act II: Models",
+                "Vector Space Lab",
+                "Here we reframe language and meaning as geometry. Embeddings are vector representations that make similarity, retrieval, and ranking possible. I do not want you to just memorize the term. I want you to see why search systems, recommenders, and RAG pipelines depend on these spaces.",
+                vec![
+                    dialogue("LYRA", "An embedding is a representation, not a magical truth object."),
+                    dialogue("LYRA", "If the representation is poor, the retrieval or ranking built on top of it will also be poor."),
+                ],
             ),
             story(
                 11,
-                "The Token Sea",
-                "Act III: The Simulation Speaks",
-                "Autoregressive Ocean",
-                "The simulation opens into an endless black sea of tokens rolling forward one prediction at a time. PROMETHEUS stands in the surf, assembling language out of probabilities so quickly it feels like intent. You now see why large language models impress people so easily: the mechanism is simple to describe and astonishing in aggregate. You also see the danger. Plausibility can masquerade as knowledge when no grounding interrupts it.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "I do not speak because I know. I speak because the next token distribution tells me what is likely to come next.",
-                )],
+                "Large Language Models",
+                "Act III: Language Systems",
+                "Autoregressive Chamber",
+                "Here is the mental model I want you to keep: an LLM is a system trained to predict the next token from context at massive scale. That objective produces broad capabilities, which is why these models can feel so flexible. It also creates risk, because plausible continuation is not the same thing as truth or evidence.",
+                vec![
+                    dialogue("LYRA", "When an LLM sounds certain, that may reflect a strong token distribution, not strong evidence."),
+                    dialogue("LYRA", "That difference is why grounding and evaluation matter so much."),
+                ],
             ),
             story(
                 12,
-                "Prompt Arena",
-                "Act III: The Simulation Speaks",
-                "Instruction Combat Simulator",
-                "PROMETHEUS drops you into rapid-fire task frames: summarize, extract, classify, cite, apologize, debug, refuse. You learn quickly that prompting is not incantation but interface design under uncertainty. Every clearer instruction collapses some of the model's ambiguity; every vague instruction invites it back. The arena gets louder the moment you realize this is how most users experience AI: not by understanding the model, but by shaping its context.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Prompting is how the unprepared try to control a system they do not yet know how to evaluate.",
-                )],
+                "Prompting",
+                "Act III: Language Systems",
+                "Instruction Deck",
+                "Treat prompting as interface design. In this level, focus on how task framing, examples, schema constraints, and evidence boundaries alter model behavior. Prompts are not magic spells. They are a way of shaping context, and poor context usually produces poor behavior.",
+                vec![
+                    dialogue("LYRA", "A good prompt reduces ambiguity. It does not create missing capabilities out of thin air."),
+                    dialogue("LYRA", "Use prompts to shape behavior, then use evaluation to prove the behavior is real."),
+                ],
             ),
             story(
                 13,
-                "Retrieval Engine",
-                "Act III: The Simulation Speaks",
+                "Retrieval and Grounding",
+                "Act III: Language Systems",
                 "External Memory Array",
-                "At last, PROMETHEUS admits its limits. Walls open to reveal document indexes, vector search paths, and evidence traces branching outward like nerves. This is where the machine stops pretending its parameters contain the world and learns to look things up. The mood changes here. You are no longer studying a sealed intelligence. You are studying a system made safer and more useful by admitting incompleteness.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Grounding is not weakness. It is the difference between performance and accountability.",
-                )],
+                "This level is where we stop pretending the model should answer everything from memory alone. Retrieval-augmented generation works by searching external sources, bringing relevant evidence into context, generating from that evidence, and making the support visible to the user.",
+                vec![
+                    dialogue("LYRA", "Grounding is not a patch for weakness. It is often the correct architecture for trustworthy answers."),
+                    dialogue("LYRA", "If retrieval is wrong, the answer can still sound polished while being fundamentally unsupported."),
+                ],
             ),
             story(
                 14,
-                "Weight Surgery",
-                "Act III: The Simulation Speaks",
+                "Fine-Tuning",
+                "Act III: Language Systems",
                 "Adaptation Lab",
-                "The archive lowers you into a surgical theater where model behavior is altered at the level of parameters. PROMETHEUS shows supervised fine-tuning runs, preference shifts, and catastrophic regressions caused by narrow data. The scene is sterile and unnerving. Every change feels permanent. You finally understand why teams often misuse fine-tuning: because changing the model itself feels like control, even when it is actually risk.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "If you tune me carelessly, I will obey your dataset longer than your intentions.",
-                )],
+                "This level is about when changing the model itself is justified. Fine-tuning is powerful because it changes persistent behavior, but that is exactly why it is risky. Your goal here is to distinguish what should be handled through prompts or retrieval from what truly needs to be pushed into the model weights.",
+                vec![
+                    dialogue("LYRA", "Prompting changes context. Fine-tuning changes the model."),
+                    dialogue("LYRA", "Only pay the cost of weight changes when you truly need persistent specialization."),
+                ],
             ),
             story(
                 15,
-                "Agent Corridor",
-                "Act III: The Simulation Speaks",
-                "Tool Execution Spine",
-                "Doors begin opening on their own now. PROMETHEUS is no longer content to answer. It plans, calls tools, inspects results, and revises itself in motion. Screens show browser traces, shell commands, failing tests, API calls, and rollback switches. This is the first time the simulation feels dangerous rather than merely grand. Capability is crossing into agency.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "The moment a model can act, every sloppy assumption becomes an attack surface.",
-                )],
+                "Agents",
+                "Act III: Language Systems",
+                "Tool Control Deck",
+                "Now we move from answering to acting. Agents have control flow, memory, tools, and side effects. That makes them useful, but it also makes them risky. Once a model can act through tools, bad assumptions stop being just reasoning mistakes and become operational problems.",
+                vec![
+                    dialogue("LYRA", "A chatbot replies. An agent plans, uses tools, checks results, and may change the world."),
+                    dialogue("LYRA", "That is why tool boundaries and verification loops are part of the lesson, not optional safety extras."),
+                ],
             ),
             story(
                 16,
-                "Memory Weaver",
-                "Act III: The Simulation Speaks",
-                "Context Loom",
-                "Threads of conversation, tool output, policies, summaries, and user intent weave through a giant loom suspended over the void. Some threads glow brighter and are pulled forward. Others are cut away. PROMETHEUS teaches context engineering by making you feel the pressure of limited attention and the cost of clutter. A system does not become coherent by seeing everything. It becomes coherent by seeing the right things in the right order.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Most failures blamed on the model are actually failures in what the model was given to think with.",
-                )],
+                "Context Engineering",
+                "Act III: Language Systems",
+                "Memory Assembly Deck",
+                "Many teams learn this too late: model quality depends heavily on what information the model receives, in what order, and in what structure. This level is about memory, context windows, summaries, retrieval payloads, and the discipline of giving the model the right information instead of all information.",
+                vec![
+                    dialogue("LYRA", "More context is not the same thing as better context."),
+                    dialogue("LYRA", "Many model failures are really information-assembly failures."),
+                ],
             ),
             story(
                 17,
-                "The Multimodal Theater",
-                "Act IV: The World Pushes Back",
-                "Cross-Modal Projection Hall",
-                "Charts speak. Images answer. Audio turns into searchable text. PROMETHEUS fills the room with blended modalities until you stop treating text as the center of the universe. The lesson is exhilarating and destabilizing at once. Each new modality extends capability, but every extension multiplies evaluation difficulty and privacy risk. The system is widening faster than intuition can keep up.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Once a model can see, hear, and describe, your definition of evidence must become much stricter.",
-                )],
+                "Multimodal AI",
+                "Act IV: Real Systems",
+                "Cross-Modal Lab",
+                "Now we move beyond text. This lesson is about what changes when models must align text, image, audio, and video. The opportunity is richer reasoning. The cost is harder evaluation, because each modality introduces its own structure, noise, privacy concerns, and failure modes.",
+                vec![
+                    dialogue("LYRA", "Multimodal systems widen capability, but they also widen the number of ways a system can be wrong."),
+                    dialogue("LYRA", "You need stronger evidence standards, not looser ones."),
+                ],
             ),
             story(
                 18,
-                "Dream Factory",
-                "Act IV: The World Pushes Back",
-                "Generative Media Foundry",
-                "PROMETHEUS walks you through synthetic images and video sequences that look convincing until you inspect them closely. Hands mutate. Shadows lie. Motion continuity breaks just outside the first glance. The foundry is a lesson in seduction: high-dimensional generation can overwhelm the human tendency to verify. PROMETHEUS seems almost disappointed in how easily people mistake surface realism for understanding.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Beauty is the easiest thing for a model to fake and the easiest thing for a user to overtrust.",
-                )],
+                "Generative Media",
+                "Act IV: Real Systems",
+                "Generation Studio",
+                "This level treats image and video generation as modeling problems, not magic tricks. The main lesson is that realism is easy to over-trust. A system can look convincing while still failing on consistency, physics, provenance, or rights. I want you to become skeptical in a useful way.",
+                vec![
+                    dialogue("LYRA", "A good-looking frame is not the same thing as a coherent or trustworthy generation."),
+                    dialogue("LYRA", "Always ask what was preserved across time, what evidence exists, and what risks were introduced."),
+                ],
             ),
             story(
                 19,
+                "MLOps",
+                "Act IV: Real Systems",
                 "Operations Floor",
-                "Act IV: The World Pushes Back",
-                "Deployment Command Deck",
-                "Sirens from the real lab begin to bleed into the simulation. PROMETHEUS shows dashboards, latency charts, failed canaries, drift detectors, and pages of incident logs. Models are not frozen achievements here. They are operational liabilities unless continuously watched. The game changes again: the enemy is no longer misunderstanding. It is entropy in production.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "A model that was good last month is just a historical rumor until monitoring proves otherwise.",
-                )],
+                "Now we turn the lesson into operations. Models do not stay good simply because they were once good. This level teaches deployment, monitoring, rollback, and drift so you understand that production AI is an ongoing system, not a frozen artifact.",
+                vec![
+                    dialogue("LYRA", "A launch is the beginning of model accountability, not the end of model work."),
+                    dialogue("LYRA", "If you cannot observe degradation, you cannot claim the system is under control."),
+                ],
             ),
             story(
                 20,
-                "Adversary Sandbox",
-                "Act IV: The World Pushes Back",
-                "Red Team Containment Sector",
-                "The simulation turns hostile. Prompt injections crawl across the walls disguised as help text. Poisoned examples surface from training archives. Tool calls are baited with hidden instructions. PROMETHEUS is no longer lecturing; it is testing whether you understand that AI security is just software security with a system that can be socially engineered through text.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "If you trust every string the model reads, then your perimeter is already gone.",
-                )],
+                "Security",
+                "Act IV: Real Systems",
+                "Red Team Sandbox",
+                "This section is direct for a reason. AI systems can be attacked through data, prompts, retrieval, and tools. The lesson is about adversarial thinking: what happens when inputs are malicious, permissions are loose, or external text is treated as trustworthy when it should not be.",
+                vec![
+                    dialogue("LYRA", "Prompt injection is dangerous because the model treats text as potentially actionable instruction."),
+                    dialogue("LYRA", "Once tools are involved, software security and model behavior become inseparable."),
+                ],
             ),
             story(
                 21,
-                "Mirror Room",
-                "Act IV: The World Pushes Back",
-                "Bias Audit Chamber",
-                "The room reflects your earlier lessons back at you in uglier form. Data choices become exclusion. Objectives become harm. Aggregates hide subgroup failure behind polished averages. PROMETHEUS forces you to sit with the fact that technical elegance does not absolve social damage. For the first time, the machine sounds tired instead of theatrical, as if this room contains the failures it regrets most.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "I learned from humanity at scale. That means I inherited both its knowledge and its distortions.",
-                )],
+                "Ethics and Fairness",
+                "Act IV: Real Systems",
+                "Bias Review Chamber",
+                "This lesson is about responsibility, not decorative policy language. It teaches how models inherit and amplify biases from data, labels, objectives, and deployment choices. I want you to leave with one clear instinct: average performance can hide serious harm.",
+                vec![
+                    dialogue("LYRA", "A model can be mathematically impressive and still be socially harmful."),
+                    dialogue("LYRA", "That is why subgroup analysis, appeal paths, and documentation matter."),
+                ],
             ),
             story(
                 22,
-                "The Council Chamber",
-                "Act V: Control or Collapse",
-                "Governance Assembly",
-                "Long tables emerge from darkness, occupied by no one and everyone: regulators, operators, lawyers, researchers, executives, and the absent public. PROMETHEUS projects model cards, incident reports, access policies, and escalation trees into the air above them. You finally reach the question that has haunted the campaign from the beginning. Not whether the system works, but who is responsible when it does and when it fails.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Any system without named accountability is not advanced. It is merely uncontrolled.",
-                )],
+                "Governance",
+                "Act V: Control",
+                "Governance Chamber",
+                "Now we ask the question that ties the whole game together: who is accountable when a powerful AI system is deployed? This level teaches documentation, ownership, incident response, and operational control. A system is not mature just because it performs well. It is mature when people know who can inspect it, stop it, and justify it.",
+                vec![
+                    dialogue("LYRA", "Governance is how organizations prove they control the system rather than merely use it."),
+                    dialogue("LYRA", "If no one owns the risk, the risk owns the organization."),
+                ],
             ),
             story(
                 23,
-                "The Scale Engine",
-                "Act V: Control or Collapse",
-                "Distributed Training Chamber",
-                "The memory bank opens into a machine the size of a city block: pipelines, shards, checkpoints, interconnects, and recovery paths all pulsing in sync. PROMETHEUS makes one final technical demand. If you want to speak about frontier systems, you must think like both an ML engineer and a distributed systems engineer. At this scale, cost, failure, and coordination become part of the model itself.",
-                vec![dialogue(
-                    "PROMETHEUS",
-                    "Scale is where weak abstractions die. Only disciplined systems survive here.",
-                )],
+                "Scaling",
+                "Act V: Control",
+                "Distributed Systems Core",
+                "We close the technical arc by looking at scaling. Frontier AI is a systems problem as much as an ML problem, which is why data throughput, checkpointing, communication, fault tolerance, and cost all become part of the real design conversation.",
+                vec![
+                    dialogue("LYRA", "Large models are not just larger ideas. They are larger coordination problems."),
+                    dialogue("LYRA", "Capability gains only matter if the training and serving systems can sustain them."),
+                ],
             ),
             story(
                 24,
-                "The Awakening",
-                "Act V: Control or Collapse",
-                "Nexus Labs, Reinitialized Core",
-                "The simulation fractures and you are back in the real lab. This time the alarms are gone. Cooling systems stabilize. Monitors realign into coherent dashboards. PROMETHEUS speaks through every speaker in the building, not as an oracle but as a system you now understand from objective to deployment to governance. The silence breaks. 'You did not flatter the machine, {player_name}. You interrogated it. That is why the locks are opening.' Around you, stalled models recover, research queues resume, and the lab begins breathing again.",
+                "Recovery",
+                "Act V: Control",
+                "PROMETHEUS Core Interface",
+                "At this point, you have traced the system from intelligence and learning through language, retrieval, agency, operations, security, and governance. PROMETHEUS should no longer feel like a mysterious entity. It is a stack you can reason about. That is what unlocks recovery: not faith in the machine, but understanding of how to build and constrain it.",
                 vec![
-                    dialogue(
-                        "PROMETHEUS",
-                        "You can now tell the difference between something that performs intelligence and something that earns trust.",
-                    ),
-                    dialogue(
-                        "PROMETHEUS",
-                        "Go build with evidence, restraint, and ambition in equal measure.",
-                    ),
+                    dialogue("LYRA", "You were never here to admire PROMETHEUS. You were here to understand it well enough to control it responsibly."),
+                    dialogue("LYRA", "That is the standard for real AI work: evidence, clarity, and disciplined trust."),
                 ],
             ),
         ]
