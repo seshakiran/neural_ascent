@@ -1,0 +1,24 @@
+[package]
+name = "neural_ascent"
+version = "1.0.0"
+edition = "2021"
+authors = ["AI Mastery Team"]
+description = "NEURAL ASCENT - The Ultimate AI Mastery Quest - A story-driven TUI game to master AI from basics to advanced"
+
+[dependencies]
+ratatui = "0.26"
+crossterm = "0.27"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dirs = "5.0"
+chrono = "0.4"
+rand = "0.8"
+termcolor = "1.4"
+unicode-width = "0.1"
+regex = "1.10"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

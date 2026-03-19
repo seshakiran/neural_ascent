@@ -1,0 +1,1942 @@
+[
+  {
+    "id": 0,
+    "name": "THE SILENCE",
+    "overview": "Orientation and the rules of the ascent",
+    "prerequisites": [],
+    "steps": [
+      {
+        "title": "Mission Briefing",
+        "foundations": "Definitions first: throughout this course, a task is the problem the system is meant to solve, an objective is the quantity it is rewarded or optimized for, and a failure mode is a predictable way the system can go wrong. The point of the ascent is to connect those three ideas every time you meet a new model or technique.",
+        "standard_theory": "PROMETHEUS is not asking for rote memorization. The goal of this course is to build a mental model of AI systems: what they optimize, where they fail, what design choices shape behavior, and why impressive outputs can still hide fragile reasoning. Each lesson now has concept explanation, examples, and a mastery gate before you advance.",
+        "deep_theory": "PROMETHEUS is not asking for rote memorization. The goal of this course is to build a mental model of AI systems: what they optimize, where they fail, what design choices shape behavior, and why impressive outputs can still hide fragile reasoning. Each lesson now has concept explanation, examples, and a mastery gate before you advance. In practice, this matters because Real AI work is not just shipping a model. It is deciding what task you are solving, what success looks like, what failures are acceptable, and how you will detect drift or misuse.",
+        "code_examples": [],
+        "real_world_examples": [
+          {
+            "title": "Operational mindset",
+            "description": "Real AI work is not just shipping a model. It is deciding what task you are solving, what success looks like, what failures are acceptable, and how you will detect drift or misuse.",
+            "impact": "This frames the rest of the curriculum around engineering judgment instead of trivia."
+          }
+        ],
+        "quiz": [],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "INTELLIGENCE",
+    "overview": "What intelligence means in humans and machines",
+    "prerequisites": [
+      "Orientation"
+    ],
+    "steps": [
+      {
+        "title": "Capability, adaptation, and feedback",
+        "foundations": "Definitions first: an agent is any system that observes an environment, takes actions, and receives feedback. Capability means how well it performs a task, while generality means how widely that competence transfers across tasks and environments. Those are different axes, which is why a narrow system can be superhuman in one domain and useless everywhere else.",
+        "standard_theory": "Intelligence is not just speed or memory. In cognitive science and AI, intelligence usually refers to an agent's ability to achieve goals across environments by perceiving signals, forming representations, choosing actions, and adapting from feedback. A calculator is excellent at arithmetic but useless outside that domain. A human toddler is slow and error-prone, yet general because the toddler can transfer patterns between tasks. This distinction matters because many AI products look intelligent while actually being narrow optimizers trained for a specific objective.",
+        "deep_theory": "Intelligence is not just speed or memory. In cognitive science and AI, intelligence usually refers to an agent's ability to achieve goals across environments by perceiving signals, forming representations, choosing actions, and adapting from feedback. A calculator is excellent at arithmetic but useless outside that domain. A human toddler is slow and error-prone, yet general because the toddler can transfer patterns between tasks. This distinction matters because many AI products look intelligent while actually being narrow optimizers trained for a specific objective. In practice, this matters because A route planner is highly capable inside one well-defined problem: minimizing travel time given constraints. It does not understand cities in the broad human sense.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "A toy agent loop",
+            "code": "while not goal_reached:\n    observation = environment.observe()\n    action = policy(observation)\n    reward = environment.step(action)\n    update(policy, reward)",
+            "explanation": "Many AI systems can be viewed as an agent repeatedly observing, acting, and updating from feedback."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Navigation systems",
+            "description": "A route planner is highly capable inside one well-defined problem: minimizing travel time given constraints. It does not understand cities in the broad human sense.",
+            "impact": "This is why competence in one task should not be confused with general intelligence."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Which description best captures intelligence in an AI context?",
+            "options": [
+              "Producing outputs quickly",
+              "Achieving goals by adapting behavior from feedback",
+              "Memorizing the largest dataset possible",
+              "Running on expensive hardware"
+            ],
+            "correct_answer": "B",
+            "explanation": "The core idea is goal-directed performance under changing conditions, not raw speed or storage.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is a calculator not considered generally intelligent?",
+            "options": [
+              "It uses silicon instead of neurons",
+              "It lacks a training dataset",
+              "It is narrow and cannot transfer competence across tasks",
+              "It cannot produce text"
+            ],
+            "correct_answer": "C",
+            "explanation": "It is powerful in one domain but has no broad adaptive competence.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What does the agent loop highlight?",
+            "options": [
+              "That intelligence depends only on reward size",
+              "That intelligence often involves observe, act, evaluate, and update",
+              "That intelligence requires language",
+              "That intelligence is the same as consciousness"
+            ],
+            "correct_answer": "B",
+            "explanation": "Most practical AI systems can be analyzed as a feedback loop.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Boundary Test",
+          "description": "Write two or three sentences comparing a highly capable narrow system with a more general but weaker learner. Focus on transfer across tasks.",
+          "xp_reward": 60
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "SYMBOLIC AI",
+    "overview": "Rules, search, and the limits of hand-written intelligence",
+    "prerequisites": [
+      "Intelligence"
+    ],
+    "steps": [
+      {
+        "title": "Before machine learning dominated",
+        "foundations": "Definitions first: symbolic AI represents the world using explicit symbols, rules, or search states instead of learned weights. A rule is a hand-written condition-action relationship, and a search procedure explores possible actions or explanations to find a valid solution. This works best when the domain is structured, auditable, and not dominated by noisy perception.",
+        "standard_theory": "Early AI emphasized symbolic representations: logic, search trees, planning, and expert systems. Engineers encoded rules such as IF fever AND rash THEN consider measles. This approach works when the world can be represented with explicit symbols and rules are stable. It struggles when perception is messy, concepts are fuzzy, or rules explode combinatorially. Symbolic AI did not disappear; search, planning, and constraints still matter, especially when paired with learned models.",
+        "deep_theory": "Early AI emphasized symbolic representations: logic, search trees, planning, and expert systems. Engineers encoded rules such as IF fever AND rash THEN consider measles. This approach works when the world can be represented with explicit symbols and rules are stable. It struggles when perception is messy, concepts are fuzzy, or rules explode combinatorially. Symbolic AI did not disappear; search, planning, and constraints still matter, especially when paired with learned models. In practice, this matters because Tax preparation tools rely heavily on symbolic rules because law contains explicit conditions and branching logic.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "A tiny rule-based expert system",
+            "code": "def diagnose(has_fever, has_rash):\n    if has_fever and has_rash:\n        return 'consider measles'\n    return 'insufficient evidence'",
+            "explanation": "Rule systems are interpretable, but they scale poorly when reality becomes ambiguous or high-dimensional."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Tax software",
+            "description": "Tax preparation tools rely heavily on symbolic rules because law contains explicit conditions and branching logic.",
+            "impact": "Symbolic methods remain valuable in domains with codified procedures and auditable decisions."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is a main strength of symbolic AI?",
+            "options": [
+              "It automatically learns features from raw pixels",
+              "It is easy to audit because rules are explicit",
+              "It never requires domain knowledge",
+              "It solves ambiguity better than deep learning"
+            ],
+            "correct_answer": "B",
+            "explanation": "Explicit rules make behavior inspectable and easier to justify.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why do expert systems struggle in perception-heavy tasks?",
+            "options": [
+              "Rules are too interpretable",
+              "Sensors are too cheap",
+              "Real-world perception has too many ambiguous edge cases to enumerate cleanly",
+              "Search algorithms cannot use trees"
+            ],
+            "correct_answer": "C",
+            "explanation": "Hand-authoring rules for every visual or linguistic variation does not scale.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which statement is most accurate today?",
+            "options": [
+              "Symbolic AI is obsolete",
+              "Machine learning replaced all search and planning",
+              "Modern systems often combine learned models with search, tools, or constraints",
+              "Symbolic AI only mattered before computers"
+            ],
+            "correct_answer": "C",
+            "explanation": "Hybrid systems are common because each paradigm solves different parts of the problem.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "MACHINE LEARNING",
+    "overview": "Learning patterns from data instead of writing every rule",
+    "prerequisites": [
+      "Symbolic AI"
+    ],
+    "steps": [
+      {
+        "title": "Objectives, data, and generalization",
+        "foundations": "Definitions first: data is the collection of examples you train on, model class is the family of functions you allow the system to learn, loss function is the numeric penalty for being wrong, and evaluation distribution is the real-world data you will test or deploy on. If the loss function rewards the wrong behavior, the model can look good in training while optimizing the wrong thing.",
+        "standard_theory": "Machine learning replaces many hand-written rules with a process that fits parameters from data. A model sees examples, adjusts parameters to reduce error on a training objective, and is then evaluated on unseen data. The key word is generalization: good training loss is not enough if the model memorizes noise and fails on future examples. To reason well about ML, keep four objects in mind: data, model class, loss function, and evaluation distribution.",
+        "deep_theory": "Machine learning replaces hand-authored rules with parameter fitting from examples. A model sees data, computes predictions, measures error with a loss function, and updates parameters to reduce that loss. The key idea is not fitting the training set perfectly; it is generalization, meaning the learned pattern must survive contact with unseen data. Keep four pieces in view: the data distribution, the model class, the loss function, and the evaluation setup. If any of those are misaligned, the system may optimize beautifully and still fail in production. In real systems, many 'model failures' are really failures in label design, split strategy, or evaluation scope rather than failures of optimization alone.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "The standard fit/predict pattern",
+            "code": "model.fit(x_train, y_train)\npreds = model.predict(x_test)\nscore = metric(y_test, preds)",
+            "explanation": "Most ML pipelines differ in sophistication, but they all come back to training on data and evaluating on held-out examples."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Spam filtering",
+            "description": "Instead of hard-coding every spam phrase, a model learns correlations between message patterns and labels from historical email data.",
+            "impact": "ML becomes attractive when rules are too numerous or brittle to maintain manually."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What separates machine learning from pure rule-based programming?",
+            "options": [
+              "ML always uses GPUs",
+              "ML estimates patterns from data rather than depending only on hand-written rules",
+              "ML never needs objectives",
+              "ML guarantees causal understanding"
+            ],
+            "correct_answer": "B",
+            "explanation": "The model parameters are learned from examples.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is generalization the central concern?",
+            "options": [
+              "Training accuracy is legally required",
+              "A useful model must perform on unseen data, not just remembered training examples",
+              "Generalization means the model knows all tasks",
+              "It removes the need for evaluation"
+            ],
+            "correct_answer": "B",
+            "explanation": "The real test is behavior outside the training set.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which set captures the core components of an ML system?",
+            "options": [
+              "Dataset, model, objective, evaluation",
+              "Server, GPU, cloud bill, prompt",
+              "Symbol table, compiler, linker, binary",
+              "API key, chatbot, browser, user"
+            ],
+            "correct_answer": "A",
+            "explanation": "Those four pieces define what is being learned and how success is judged.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Generalization Check",
+          "description": "Describe a case where a model could get high training accuracy but still fail badly in production.",
+          "xp_reward": 70
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "SUPERVISED LEARNING",
+    "overview": "Labels, targets, and predictive modeling",
+    "prerequisites": [
+      "Machine Learning"
+    ],
+    "steps": [
+      {
+        "title": "Learning from labeled examples",
+        "foundations": "Definitions first: supervised learning means each example has a target label or value. Classification predicts categories, regression predicts continuous numbers, and a loss function measures how far predictions are from targets. Labels are not truth handed down by nature; they are operational decisions about what the system should learn to reproduce.",
+        "standard_theory": "In supervised learning, each training example includes an input and a target. Classification predicts discrete labels such as spam or not spam. Regression predicts continuous values such as house price or demand. The model is optimized to reduce error between predictions and targets, but performance depends on label quality, feature quality, and whether the training distribution matches the deployment distribution. Supervised learning is powerful precisely because it turns domain knowledge into labels and metrics.",
+        "deep_theory": "In supervised learning, each example pairs input features with a target the model should predict. Classification handles discrete outcomes like spam vs not spam. Regression handles continuous outcomes like price or demand. Training means reducing a loss function that punishes mismatch between prediction and target. The deeper lesson is that supervision turns human judgment into data. If labels are noisy, inconsistent, or strategically chosen for convenience rather than correctness, the model will faithfully learn those distortions. This is why deployment quality depends not only on architecture but on how targets were defined, how train/test splits were built, and whether the production environment matches the label-generating process.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Classification vs regression",
+            "code": "spam_model.fit(emails, is_spam)\nprice_model.fit(home_features, sale_price)",
+            "explanation": "The same learning framework can optimize different target types depending on the task."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Medical triage",
+            "description": "A supervised model can estimate whether a patient is likely to deteriorate based on historical records and labeled outcomes.",
+            "impact": "This is only useful if labels reflect real outcomes and the system is validated for bias and calibration."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What makes a task supervised?",
+            "options": [
+              "The model is deployed with monitoring",
+              "The training data includes target labels or values",
+              "The model uses only neural networks",
+              "A human watches the training run"
+            ],
+            "correct_answer": "B",
+            "explanation": "Supervision comes from labeled targets.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which example is regression?",
+            "options": [
+              "Predicting customer churn yes/no",
+              "Classifying an image as cat or dog",
+              "Estimating tomorrow's electricity demand in megawatt-hours",
+              "Sorting search results"
+            ],
+            "correct_answer": "C",
+            "explanation": "Regression predicts a continuous quantity.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a common failure mode in supervised learning?",
+            "options": [
+              "The model has too many transistors",
+              "Labels are noisy or misaligned with the real task",
+              "The loss function is always zero",
+              "Deployment data is identical forever"
+            ],
+            "correct_answer": "B",
+            "explanation": "If labels are poor, the model learns the wrong target.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "UNSUPERVISED LEARNING",
+    "overview": "Finding structure when labels are absent",
+    "prerequisites": [
+      "Supervised Learning"
+    ],
+    "steps": [
+      {
+        "title": "Clustering, compression, and latent structure",
+        "foundations": "Definitions first: unlabeled data means the system sees examples without a target answer attached. Clustering groups similar items, dimensionality reduction compresses data into fewer variables, and latent structure means hidden patterns that are not directly labeled but can still be useful. Because there is no ground-truth label, success usually has to be judged by downstream usefulness rather than one obvious score.",
+        "standard_theory": "Unsupervised learning uses unlabeled data to discover structure. Clustering groups similar examples, dimensionality reduction compresses data into lower-dimensional representations, and density models try to capture how the data is distributed. The goal is not magic truth discovery; it is extracting useful structure that may support exploration, representation learning, anomaly detection, or downstream tasks. The challenge is that evaluation becomes less direct because there is no single target label to compare against.",
+        "deep_theory": "Unsupervised learning uses unlabeled data to discover structure. Clustering groups similar examples, dimensionality reduction compresses data into lower-dimensional representations, and density models try to capture how the data is distributed. The goal is not magic truth discovery; it is extracting useful structure that may support exploration, representation learning, anomaly detection, or downstream tasks. The challenge is that evaluation becomes less direct because there is no single target label to compare against. In practice, this matters because Retailers cluster customers by purchasing patterns to identify groups with different needs and behaviors.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "A clustering sketch",
+            "code": "clusters = kmeans.fit(customer_vectors)\nfor customer, cluster_id in zip(customers, clusters.labels_):\n    print(customer, cluster_id)",
+            "explanation": "Clustering groups examples by similarity in the chosen feature space."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Customer segmentation",
+            "description": "Retailers cluster customers by purchasing patterns to identify groups with different needs and behaviors.",
+            "impact": "These clusters are useful only if they support better decisions, not because they look mathematically neat."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Why is unsupervised learning harder to evaluate than supervised learning?",
+            "options": [
+              "It never uses statistics",
+              "There is often no single ground-truth label defining success",
+              "It cannot run on real data",
+              "It only works for text"
+            ],
+            "correct_answer": "B",
+            "explanation": "Without labels, usefulness must be judged indirectly or with downstream tasks.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which task is unsupervised?",
+            "options": [
+              "Predicting loan default from labeled examples",
+              "Estimating house prices",
+              "Grouping users by behavior without pre-assigned categories",
+              "Detecting whether an X-ray is malignant from labeled diagnoses"
+            ],
+            "correct_answer": "C",
+            "explanation": "No target labels are provided; the algorithm searches for structure.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What does dimensionality reduction primarily do?",
+            "options": [
+              "Adds more features to improve overfitting",
+              "Compresses data while trying to preserve important structure",
+              "Converts regression into classification",
+              "Guarantees fairness"
+            ],
+            "correct_answer": "B",
+            "explanation": "It creates a smaller representation of the data.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "NEURAL NETWORKS",
+    "overview": "Learned representations through layered computation",
+    "prerequisites": [
+      "Unsupervised Learning"
+    ],
+    "steps": [
+      {
+        "title": "Why depth matters",
+        "foundations": "Definitions first: a parameter is a learned number such as a weight or bias, a layer is one transformation stage in the network, and a nonlinearity is the function that prevents many stacked layers from collapsing into one linear operation. Representation means the internal features the model learns while solving the task.",
+        "standard_theory": "A neural network is a parameterized function composed of layers. Each layer applies a linear transformation followed by a nonlinearity, allowing the network to build increasingly useful internal representations. The point of depth is not mysticism; it is function composition. Early layers may detect simple patterns, while later layers combine them into more abstract features. Training uses gradient-based optimization to adjust millions or billions of parameters so that the network behaves well on the chosen objective.",
+        "deep_theory": "A neural network is a composition of parameterized layers that transform inputs into progressively more task-useful representations. Linear layers mix information, nonlinearities let the model express richer functions, and depth allows later layers to build on structure discovered by earlier ones. The core intuition is representation learning: rather than forcing the engineer to design every feature by hand, the network learns intermediate features that help minimize the objective. That power is useful precisely because it is indirect. You do not tell the model what an edge, motif, or topic is. You reward downstream performance and let those internal structures emerge. The tradeoff is that this process becomes harder to interpret and easier to overtrust if you ignore evaluation.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "A minimal feed-forward network",
+            "code": "h1 = relu(x @ w1 + b1)\nlogits = h1 @ w2 + b2\nprobs = softmax(logits)",
+            "explanation": "Layered transformations let the model learn nonlinear decision boundaries."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Vision models",
+            "description": "In image systems, early layers often become sensitive to edges and textures, while deeper layers respond to object parts or whole objects.",
+            "impact": "This layered hierarchy helps networks model complex input spaces."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Why do neural networks use nonlinear activations?",
+            "options": [
+              "To reduce dataset size",
+              "Without nonlinearity, stacked layers collapse into a single linear transformation",
+              "To avoid matrix multiplication",
+              "Because hardware requires it"
+            ],
+            "correct_answer": "B",
+            "explanation": "Nonlinearity is what lets depth express richer functions.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a parameter in a neural network?",
+            "options": [
+              "A human-written rule",
+              "A learned weight or bias adjusted during training",
+              "A deployment metric",
+              "A guaranteed fact about the data"
+            ],
+            "correct_answer": "B",
+            "explanation": "Parameters are the values the optimizer tunes.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is the main benefit of depth?",
+            "options": [
+              "It guarantees causality",
+              "It allows hierarchical composition of useful representations",
+              "It removes the need for data",
+              "It prevents all overfitting"
+            ],
+            "correct_answer": "B",
+            "explanation": "Deeper models can express structured abstractions through composition.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Representation Story",
+          "description": "Explain in your own words how a deeper layer can build on features learned by an earlier layer.",
+          "xp_reward": 70
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "TRAINING",
+    "overview": "Loss functions, gradients, and optimization dynamics",
+    "prerequisites": [
+      "Neural Networks"
+    ],
+    "steps": [
+      {
+        "title": "How learning actually happens",
+        "foundations": "Definitions first: the loss function is the quantity the optimizer tries to minimize, a gradient tells you how the loss changes if you nudge a parameter, and the learning rate controls how large each parameter update is. Optimization does not infer your intention; it follows the math you specified.",
+        "standard_theory": "Training is an optimization process, not a single insight step. You define a loss that measures how bad the model's predictions are, compute gradients showing how each parameter affects that loss, and update parameters with an optimizer such as stochastic gradient descent or Adam. This process is sensitive to learning rate, batch size, regularization, data quality, and initialization. When training goes badly, it is often because the optimization dynamics or the objective are misaligned with the behavior you actually want.",
+        "deep_theory": "Training is repeated numerical optimization, not a magical jump from ignorance to understanding. You define an objective, compute gradients that show how parameters influence that objective locally, and update parameters with an optimizer such as SGD or Adam. The important systems lesson is that optimization is obedient. If the loss function rewards clickbait, shortcut features, or spurious correlations, the model will exploit them. Hyperparameters like learning rate and batch size affect stability, but the deeper question is whether the objective itself captures the behavior you want. Strong practitioners therefore debug both the optimization process and the target being optimized.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Gradient descent sketch",
+            "code": "loss = criterion(model(x), y)\nloss.backward()\noptimizer.step()\noptimizer.zero_grad()",
+            "explanation": "Backpropagation computes gradients, and the optimizer applies parameter updates."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Recommendation models",
+            "description": "Minor changes to objective design can cause large behavioral shifts, such as optimizing for clicks at the expense of user satisfaction.",
+            "impact": "Training is only as good as the objective and data pipeline behind it."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What does the loss function do?",
+            "options": [
+              "Stores the training data",
+              "Measures how far predictions are from the desired target",
+              "Defines the GPU memory layout",
+              "Eliminates distribution shift"
+            ],
+            "correct_answer": "B",
+            "explanation": "The optimizer needs a scalar objective to minimize.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What do gradients tell you?",
+            "options": [
+              "Which examples are mislabeled by humans",
+              "How changing each parameter would change the loss locally",
+              "Whether the model is conscious",
+              "How to compress the dataset"
+            ],
+            "correct_answer": "B",
+            "explanation": "They indicate the local direction of steepest change.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why can optimizing the wrong metric be dangerous?",
+            "options": [
+              "Optimization is always random",
+              "The model will become symbolic AI",
+              "The system can learn behavior that maximizes the metric while hurting real user goals",
+              "Loss functions only work in vision"
+            ],
+            "correct_answer": "C",
+            "explanation": "A model does what the objective rewards, not what you vaguely intended.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "ARCHITECTURES",
+    "overview": "CNNs, RNNs, and the idea of inductive bias",
+    "prerequisites": [
+      "Training"
+    ],
+    "steps": [
+      {
+        "title": "Different architectures encode different assumptions",
+        "foundations": "Definitions first: architecture is the structure of the model itself, and inductive bias is the built-in assumption that structure makes about the world. A convolution assumes local spatial patterns matter, a recurrent model assumes sequential state matters, and a transformer assumes flexible attention over context matters. Good architecture choice means matching those assumptions to the real dependency pattern of the task.",
+        "standard_theory": "Model architecture is an inductive bias: a structured guess about what patterns matter. Convolutional networks assume local spatial patterns and weight sharing, which works well for images. Recurrent networks process sequences step by step and were historically important for text and time series. Transformer architectures later replaced many recurrent systems because attention captures long-range dependencies more efficiently. Understanding architecture means understanding what structure the model is encouraged to exploit.",
+        "deep_theory": "Model architecture is an inductive bias: a structured guess about what patterns matter. Convolutional networks assume local spatial patterns and weight sharing, which works well for images. Recurrent networks process sequences step by step and were historically important for text and time series. Transformer architectures later replaced many recurrent systems because attention captures long-range dependencies more efficiently. Understanding architecture means understanding what structure the model is encouraged to exploit. In practice, this matters because A recurrent or attention-based sequence model can capture how recent and older events influence future readings.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Convolution vs recurrence",
+            "code": "image_features = conv2d(image)\nstate = rnn(sequence_step, prev_state)",
+            "explanation": "Architectures differ because data modalities have different structure."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Sensor forecasting",
+            "description": "A recurrent or attention-based sequence model can capture how recent and older events influence future readings.",
+            "impact": "Good architecture selection can reduce data requirements and improve stability."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is an inductive bias?",
+            "options": [
+              "A fairness bug",
+              "A built-in preference for certain kinds of structure or solutions",
+              "A random seed",
+              "A deployment rollback"
+            ],
+            "correct_answer": "B",
+            "explanation": "Architectures encode assumptions that guide learning.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why were CNNs successful in vision?",
+            "options": [
+              "They memorize labels faster",
+              "They exploit locality and translation-related structure in images",
+              "They remove the need for training data",
+              "They use reinforcement learning"
+            ],
+            "correct_answer": "B",
+            "explanation": "Convolution shares weights across locations and leverages spatial patterns.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why did transformers displace many RNNs?",
+            "options": [
+              "Transformers cannot process long contexts",
+              "Attention handles long-range dependencies more effectively and parallelizes better",
+              "RNNs are symbolic systems",
+              "Transformers do not require optimization"
+            ],
+            "correct_answer": "B",
+            "explanation": "That efficiency and context access were major advantages.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "ATTENTION",
+    "overview": "How transformers decide what to focus on",
+    "prerequisites": [
+      "Architectures"
+    ],
+    "steps": [
+      {
+        "title": "The central idea behind transformers",
+        "foundations": "Definitions first: a token is a chunk of input text, a query is the representation used to ask what other information matters, a key is the representation other tokens expose for matching, and a value is the content mixed into the new representation. Attention scores are normalized weights that tell the model where to focus.",
+        "standard_theory": "Attention lets a token build its representation by looking at other tokens and weighting them by relevance. In self-attention, queries, keys, and values are learned projections of the same sequence. The model computes similarity between a token's query and other tokens' keys, normalizes those scores, and uses them to mix values. This gives the model dynamic context-dependent computation. Instead of compressing an entire sentence into one hidden state, the model can directly reference relevant positions.",
+        "deep_theory": "Attention lets each token form a context-aware representation by selectively reading from other positions in the sequence. Queries, keys, and values are learned projections: queries ask what is relevant, keys advertise what information each position contains, and values carry the content that gets mixed into the new representation. This avoids forcing the model to compress an entire sequence into one hidden state before making decisions. The practical win is long-range reasoning: references, dependencies, and code relationships can be connected directly across distance. The deeper systems takeaway is that attention changes what context means. The model can dynamically decide which parts of the prompt matter instead of relying only on fixed local structure.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Scaled dot-product attention",
+            "code": "scores = (Q @ K.T) / sqrt(d)\nweights = softmax(scores)\ncontext = weights @ V",
+            "explanation": "Attention computes relevance scores and uses them to build a context-aware representation."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Coreference in language",
+            "description": "To interpret 'The trophy did not fit in the suitcase because it was too big,' the model must connect 'it' to the correct noun using context.",
+            "impact": "Attention helps the model compare multiple earlier words directly instead of relying on a single rolling memory state."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is attention fundamentally doing?",
+            "options": [
+              "Replacing data with rules",
+              "Weighting information from different positions according to relevance",
+              "Removing sequence order entirely",
+              "Guaranteeing factual correctness"
+            ],
+            "correct_answer": "B",
+            "explanation": "Attention is selective context aggregation.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why divide by the square root of dimension in scaled dot-product attention?",
+            "options": [
+              "To speed up disk access",
+              "To keep similarity scores numerically well-behaved as dimension grows",
+              "To make the model symbolic",
+              "To remove gradients"
+            ],
+            "correct_answer": "B",
+            "explanation": "It stabilizes the magnitude of attention scores.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why was attention such a breakthrough for language models?",
+            "options": [
+              "It prevents hallucinations completely",
+              "It allows direct access to relevant tokens across long contexts",
+              "It eliminates the need for data curation",
+              "It only works for short sentences"
+            ],
+            "correct_answer": "B",
+            "explanation": "Direct token-to-token interaction is more flexible than compressing everything into one hidden state.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Attention Intuition",
+          "description": "Write a short explanation of how attention differs from reading a sentence strictly one token at a time.",
+          "xp_reward": 80
+        },
+        "is_synthesis": false
+      },
+      {
+        "title": "Checkpoint: Architecture Choice",
+        "foundations": "Scenario setup: the user asks, 'Can I refund a purchase after 45 days if the item is defective?' The answer may depend on a clause buried deep in a long policy document and may also require citing the exact passage. To solve this well, you need to think about long-range dependencies, evidence access, and how architectural assumptions affect whether the system can connect the question to the right text span.",
+        "standard_theory": "You are designing a support assistant that must read long policy documents, cite relevant passages, and handle references that may span many paragraphs. This is a synthesis checkpoint: combine what you learned about inductive bias, sequence modeling, and attention. The right answer is not just 'use transformers because they are modern.' You should reason about why direct long-range token interaction and flexible context selection matter for this task.",
+        "deep_theory": "You are designing a support assistant that must read long policy documents, cite relevant passages, and handle references that may span many paragraphs. This is a synthesis checkpoint: combine what you learned about inductive bias, sequence modeling, and attention. The right answer is not just 'use transformers because they are modern.' You should reason about why direct long-range token interaction and flexible context selection matter for this task. In practice, this matters because A support system often needs to connect a current question to a clause written many paragraphs earlier, then quote the right evidence.",
+        "code_examples": [],
+        "real_world_examples": [
+          {
+            "title": "Policy question answering",
+            "description": "A support system often needs to connect a current question to a clause written many paragraphs earlier, then quote the right evidence.",
+            "impact": "This requires an architecture that handles long-range dependencies and works well with retrieval or large context windows."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Scenario: a refund policy depends on a defect clause near the end of a 20-page manual, while the customer's question appears at the beginning. What architectural capability matters most first?",
+            "options": [
+              "A model that only looks at nearby words because local patterns are enough",
+              "A model that can directly connect distant parts of the document when building a representation",
+              "A model with the shortest possible prompt to reduce cost",
+              "A purely random retrieval strategy"
+            ],
+            "correct_answer": "B",
+            "explanation": "Long-document QA depends on handling long-range dependencies, which attention-based models do far better than architectures limited to mostly local or sequential memory.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which earlier concept should guide architecture selection here?",
+            "options": [
+              "Inductive bias: choose structures that match the dependency patterns of the task",
+              "Only hardware price",
+              "Only prompt wording",
+              "Only output length"
+            ],
+            "correct_answer": "A",
+            "explanation": "Architecture is a bet about structure; long-range textual dependency matters here.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Second step in the same scenario: the model summarizes confidently but sometimes invents clauses that are not present. What is the best system change after choosing the architecture?",
+            "options": [
+              "Add retrieval over the policy corpus and require citations to the exact passages used",
+              "Make the answer longer so it sounds more careful",
+              "Hide the supporting documents from the user",
+              "Increase randomness so the model explores more options"
+            ],
+            "correct_answer": "A",
+            "explanation": "Architecture helps with context, but grounding the answer in retrieved evidence is what directly reduces unsupported policy claims.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": true
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "EMBEDDINGS",
+    "overview": "Representing meaning as vectors",
+    "prerequisites": [
+      "Attention"
+    ],
+    "steps": [
+      {
+        "title": "Why vectors matter",
+        "foundations": "Definitions first: an embedding is a vector representation, a vector is an ordered list of numbers, and cosine similarity measures how aligned two vectors are in direction. Embeddings are useful because similar items end up near one another in the learned space.",
+        "standard_theory": "Machine learning systems need numeric representations. Embeddings map words, sentences, images, users, or products into continuous vector spaces where geometric relationships reflect task-relevant similarity. A good embedding space makes downstream retrieval, ranking, clustering, and classification easier because semantically related items end up near one another. An embedding is not pure meaning in an abstract philosophical sense; it is a learned representation shaped by objective, data, and architecture.",
+        "deep_theory": "Embeddings translate words, documents, images, users, or products into vector spaces where useful relationships become geometric. This is not abstract decoration. It is what makes semantic search, nearest-neighbor retrieval, clustering, and recommendation practical. A strong embedding space places items together when the downstream task benefits from treating them as similar. That last clause matters: embeddings do not contain pure meaning independent of training. They reflect the dataset, objective, and model architecture that produced them. In practice, this means embedding quality must be evaluated for the specific retrieval or ranking task you care about, not assumed from generic benchmarks.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Semantic retrieval with embeddings",
+            "code": "query_vec = embed('how do transformers use attention?')\nscore = cosine_similarity(query_vec, doc_vec)",
+            "explanation": "Retrieval systems often compare vectors instead of raw token overlap."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Search and recommendations",
+            "description": "Product embeddings can place substitutes and complements near one another based on user behavior and content signals.",
+            "impact": "Embeddings turn qualitative relationships into numeric structure that systems can search efficiently."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is the purpose of an embedding?",
+            "options": [
+              "To store files more compactly",
+              "To convert items into vectors that capture useful relational structure",
+              "To eliminate all bias",
+              "To make optimization unnecessary"
+            ],
+            "correct_answer": "B",
+            "explanation": "Embeddings provide machine-usable representations.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why can cosine similarity be useful with embeddings?",
+            "options": [
+              "It compares directional similarity between vectors",
+              "It guarantees causal relationships",
+              "It only works for images",
+              "It counts exact word overlap"
+            ],
+            "correct_answer": "A",
+            "explanation": "Vector direction often captures semantic similarity better than raw magnitude.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which statement is most accurate?",
+            "options": [
+              "Embeddings are objective truth",
+              "Embeddings are learned representations shaped by data and training objectives",
+              "Embeddings only exist in NLP",
+              "Embeddings replace evaluation"
+            ],
+            "correct_answer": "B",
+            "explanation": "Representation quality depends on how the model was trained and for what task.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "LLMS",
+    "overview": "How large language models are trained and why they appear capable",
+    "prerequisites": [
+      "Embeddings"
+    ],
+    "steps": [
+      {
+        "title": "Predict-next-token at scale",
+        "foundations": "Definitions first: autoregressive means generating one token at a time from previous context, pretraining is the large-scale initial training phase on broad data, and hallucination means the model produces plausible but unsupported content. The model is predicting likely continuations, not consulting a built-in fact database with guaranteed truth.",
+        "standard_theory": "Large language models are usually pretrained with self-supervision: predict the next token given previous tokens. This sounds simple, but across massive corpora it forces the model to learn syntax, world regularities, latent patterns, and many task formats. The model is not retrieving one stored answer per prompt; it is generating token probabilities conditioned on context. That is why LLMs can generalize, but it is also why they can confidently generate plausible nonsense when the distribution or context is weak.",
+        "deep_theory": "Large language models are usually pretrained to predict the next token given previous tokens. That objective seems narrow, but across massive corpora it teaches the model to compress syntax, discourse, code patterns, factual regularities, and task formats into parameter space. The model then generates by sampling or selecting the next token repeatedly. This explains both its power and its risk. Because the objective is likelihood rather than truth, an LLM can sound coherent even when unsupported. The right mental model is not 'it knows' versus 'it does not know.' It is 'it has learned statistical structure that often tracks knowledge but can diverge from grounded reality.'",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Autoregressive generation loop",
+            "code": "context = tokens(prompt)\nwhile not done:\n    next_token = sample(model(context))\n    context.append(next_token)",
+            "explanation": "Generation is sequential: each new token conditions on the prompt and the tokens produced so far."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Code assistants",
+            "description": "A coding model can autocomplete functions because it has learned statistical regularities of source code, APIs, and common programming idioms.",
+            "impact": "That capability is powerful, but it does not imply formal verification or guaranteed correctness."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is the usual pretraining objective for an autoregressive LLM?",
+            "options": [
+              "Classifying documents into topics",
+              "Predicting the next token from prior context",
+              "Solving reinforcement learning tasks only",
+              "Clustering unlabeled examples into groups"
+            ],
+            "correct_answer": "B",
+            "explanation": "Next-token prediction is the core self-supervised objective.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why can next-token prediction produce broad capabilities?",
+            "options": [
+              "It forces the model to compress many regularities of language and tasks into parameters",
+              "It gives the model ground-truth access to the internet",
+              "It makes hallucination impossible",
+              "It directly encodes symbolic logic"
+            ],
+            "correct_answer": "A",
+            "explanation": "Learning to continue text well requires modeling many kinds of structure.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why do LLMs hallucinate?",
+            "options": [
+              "Because tokenization fails",
+              "Because they generate plausible continuations from learned patterns, not guaranteed grounded facts",
+              "Because attention cannot read prompts",
+              "Because vector databases are always wrong"
+            ],
+            "correct_answer": "B",
+            "explanation": "The model is optimizing likelihood, not truth by default.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Prediction vs Knowledge",
+          "description": "Write a short note explaining why an LLM can sound authoritative without actually being reliable.",
+          "xp_reward": 80
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "PROMPTING",
+    "overview": "Prompt design, decomposition, and evaluation",
+    "prerequisites": [
+      "LLMs"
+    ],
+    "steps": [
+      {
+        "title": "Prompting is interface design, not magic words",
+        "foundations": "Definitions first: prompting means shaping the model's context with task instructions, examples, constraints, and output format. A schema is an explicit output structure, and grounding means restricting the model to specific evidence rather than free-form continuation.",
+        "standard_theory": "Prompting works because context changes the distribution over outputs. Good prompts define the task, constraints, desired output format, available evidence, and success criteria. Techniques like few-shot examples, decomposition, structured outputs, and tool use make the system more reliable. But prompt engineering has limits: if the underlying model lacks capability or grounding, no template can fully rescue it. Serious practice therefore combines prompting with evaluation rather than relying on vibes.",
+        "deep_theory": "Prompting is interface design for a probabilistic model. A strong prompt clarifies the task, supplies boundaries on evidence, specifies the expected output shape, and may include examples that anchor the model's behavior. This improves reliability because it removes ambiguity the model would otherwise resolve using its own learned priors. But prompting has limits. It cannot create capabilities the model does not have, and it cannot guarantee truth without grounding or verification. In production systems, the mature move is to treat prompt design as one control surface among several, alongside retrieval, tool use, output validation, and evaluation.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "A structured prompt",
+            "code": "Task: Summarize the article.\nConstraints: Use 3 bullets.\nEvidence: Only use provided text.\nOutput schema: JSON {bullets: [string]}",
+            "explanation": "Prompt quality improves when the task, evidence boundary, and output contract are explicit."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Customer support automation",
+            "description": "A support assistant becomes safer when prompts specify tone, escalation rules, and a requirement to cite retrieved policy text.",
+            "impact": "Prompting is often the first line of behavior shaping before adding tools or fine-tuning."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is the main purpose of careful prompting?",
+            "options": [
+              "To change the model's weights permanently",
+              "To shape behavior in context by clarifying task, evidence, and output constraints",
+              "To avoid all evaluation",
+              "To make weak models strong in every domain"
+            ],
+            "correct_answer": "B",
+            "explanation": "Prompts condition behavior; they do not permanently retrain the model.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which practice usually improves reliability the most?",
+            "options": [
+              "Adding more adjectives",
+              "Combining clear task instructions with examples or schema constraints",
+              "Making prompts vague and open-ended",
+              "Removing all context"
+            ],
+            "correct_answer": "B",
+            "explanation": "Structure reduces ambiguity and makes outputs easier to evaluate.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is evaluation necessary even with good prompts?",
+            "options": [
+              "Prompting changes at random",
+              "Good wording cannot compensate for missing capability, poor grounding, or distribution shift",
+              "Evaluation only matters for images",
+              "Prompts are already objective proofs"
+            ],
+            "correct_answer": "B",
+            "explanation": "You need measured evidence that the system performs well.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "RAG",
+    "overview": "Retrieval-augmented generation and grounded answering",
+    "prerequisites": [
+      "Prompting"
+    ],
+    "steps": [
+      {
+        "title": "Teach the model to look things up",
+        "foundations": "Definitions first: retrieval means searching an external knowledge source, augmentation means placing retrieved evidence into the prompt context, and grounding means the answer should be supported by that evidence. If retrieval is wrong, the generation stage starts from the wrong facts.",
+        "standard_theory": "Retrieval-augmented generation combines a generator with a retrieval system. Instead of asking the model to answer purely from parameters, you search an external knowledge source, inject the relevant passages into context, and ask the model to answer using that evidence. This improves freshness, traceability, and domain specificity, but only if retrieval quality is high. RAG fails when the wrong documents are fetched, the context window is overloaded, or the answer is not actually constrained to the evidence.",
+        "deep_theory": "Retrieval-augmented generation combines a search layer with a generator so the model can answer from external evidence rather than relying only on parametric memory. A typical pipeline rewrites or embeds the query, retrieves relevant documents, injects them into the context window, and asks the model to answer with those passages as support. This is valuable because it improves freshness, traceability, and domain adaptation. It is also fragile. Weak retrieval, overloaded context, or prompts that fail to constrain the model can still produce confident falsehoods. Mature RAG design therefore evaluates retrieval relevance, citation faithfulness, and safe abstention rather than judging only answer fluency.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "A simple RAG pipeline",
+            "code": "query = rewrite(user_question)\ndocs = vector_db.search(embed(query))\nanswer = llm(generate_prompt(query, docs))",
+            "explanation": "RAG is a pipeline: retrieve relevant evidence, then generate from it."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Internal knowledge assistants",
+            "description": "Teams use RAG to answer questions over policy docs, runbooks, and product manuals that change frequently.",
+            "impact": "This is more practical than hoping model pretraining contains the latest internal information."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What problem does RAG primarily address?",
+            "options": [
+              "GPU overheating",
+              "Grounding answers in external, up-to-date, or domain-specific evidence",
+              "Replacing evaluation with embeddings",
+              "Converting regression to classification"
+            ],
+            "correct_answer": "B",
+            "explanation": "RAG adds retrieval so the model can answer from supplied documents.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a common RAG failure mode?",
+            "options": [
+              "Too much labeled data",
+              "Poor retrieval returns irrelevant documents, so generation is grounded in the wrong evidence",
+              "Vector databases make models deterministic",
+              "Prompts become impossible to format"
+            ],
+            "correct_answer": "B",
+            "explanation": "If retrieval is weak, the whole pipeline degrades.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is citation or evidence display valuable in RAG systems?",
+            "options": [
+              "It makes answers longer",
+              "It helps users inspect whether the answer is supported by retrieved sources",
+              "It prevents every hallucination automatically",
+              "It reduces tokenization cost to zero"
+            ],
+            "correct_answer": "B",
+            "explanation": "Grounding is more useful when users can see the underlying support.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Pipeline Critique",
+          "description": "Describe one way a RAG system can fail even when the base language model is strong.",
+          "xp_reward": 80
+        },
+        "is_synthesis": false
+      },
+      {
+        "title": "Checkpoint: Build a Trustworthy Assistant",
+        "foundations": "Scenario setup: you are shipping a legal-policy assistant to internal staff. It must answer from current firm documents, cite the exact supporting passage, and refuse when support is missing. This checkpoint mixes embeddings for retrieval, prompting for answer shape, LLM behavior under uncertainty, and evaluation for grounded correctness instead of style alone.",
+        "standard_theory": "Combine prompting, embeddings, LLM behavior, and retrieval. A legal assistant must answer only from a firm's current policy documents. The system should avoid fabricated citations, show supporting excerpts, and refuse when the evidence is missing. This checkpoint is about system design, not just one component. You need to connect the model's hallucination tendency with grounding and interface choices that make unsupported claims visible.",
+        "deep_theory": "Combine prompting, embeddings, LLM behavior, and retrieval. A legal assistant must answer only from a firm's current policy documents. The system should avoid fabricated citations, show supporting excerpts, and refuse when the evidence is missing. This checkpoint is about system design, not just one component. You need to connect the model's hallucination tendency with grounding and interface choices that make unsupported claims visible. In production, the hard part is that users will trust polished language even when the evidence is weak, so the system must make support explicit, preserve document freshness, and log unsupported requests for follow-up. A strong design therefore treats retrieval quality, citation faithfulness, abstention behavior, and auditability as first-class product requirements.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Desired system behavior",
+            "code": "retrieve relevant docs -> answer with citations -> abstain if evidence is weak -> log failures for review",
+            "explanation": "Trustworthy assistants combine retrieval, prompt constraints, and explicit fallback behavior."
+          }
+        ],
+        "real_world_examples": [],
+        "quiz": [
+          {
+            "question": "Scenario: an analyst asks a legal assistant whether a clause changed last week. The answer must be current and cite supporting text. What should the system do before generating the answer?",
+            "options": [
+              "Rely on model memory because legal language is stable",
+              "Retrieve the latest relevant documents or document chunks, then answer from those sources",
+              "Generate a likely answer first and search later if challenged",
+              "Skip retrieval and focus on a more formal writing style"
+            ],
+            "correct_answer": "B",
+            "explanation": "Fresh legal answers need current evidence first; generation should happen after retrieval, not instead of it.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why are embeddings part of this system?",
+            "options": [
+              "They replace the language model",
+              "They help map the query and documents into a searchable similarity space for retrieval",
+              "They guarantee the answer is correct",
+              "They only matter for images"
+            ],
+            "correct_answer": "B",
+            "explanation": "Embeddings support retrieval by representing semantic similarity numerically.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Final step in the same scenario: retrieval returns only weakly related passages, but the user still expects an answer. What should the assistant do?",
+            "options": [
+              "Answer confidently using prior training because some answer is better than none",
+              "State that the evidence is insufficient, show what was found, and refuse to make a stronger legal claim",
+              "Hide the uncertainty and produce a shorter answer",
+              "Rewrite the question until the retrieved passages seem to match"
+            ],
+            "correct_answer": "B",
+            "explanation": "A trustworthy assistant optimizes for grounded correctness, which includes abstaining when support is weak rather than fabricating certainty.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "System Contract",
+          "description": "Write a short policy for when the assistant should answer, cite, or explicitly refuse.",
+          "xp_reward": 90
+        },
+        "is_synthesis": true
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "FINE-TUNING",
+    "overview": "Adapting models with supervised tuning and preference learning",
+    "prerequisites": [
+      "RAG"
+    ],
+    "steps": [
+      {
+        "title": "When prompts and retrieval are not enough",
+        "foundations": "Definitions first: fine-tuning changes model parameters, supervised fine-tuning uses curated input-output pairs, and preference optimization shapes outputs toward preferred behavior. Unlike prompting, these changes persist across future interactions because the weights themselves are updated.",
+        "standard_theory": "Fine-tuning changes model behavior by updating weights on new examples. Supervised fine-tuning teaches desired task behavior directly; preference optimization and related methods try to shape outputs toward human preferences or policy constraints. Fine-tuning is useful when you need stable style, task specialization, or behavior changes that should persist across prompts. It is expensive and risky if data is low quality, narrow, or misaligned with the broader distribution the model will face.",
+        "deep_theory": "Fine-tuning is a parameter-level intervention used when prompt-only control is too brittle or too shallow. With supervised fine-tuning, you train on examples of desired behavior. With preference-based methods, you optimize toward outputs humans or policies prefer. This can improve consistency, style, and specialization, but it also introduces risk: narrow or low-quality data can overfit the model to the wrong behavior and degrade performance outside the tuned domain. The serious engineering question is not 'can we fine-tune?' but 'what behavior needs to persist strongly enough to justify changing the model itself rather than changing context, retrieval, or tooling?'",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Instruction tuning idea",
+            "code": "for prompt, ideal_response in dataset:\n    loss = cross_entropy(model(prompt), ideal_response)\n    optimize(loss)",
+            "explanation": "Fine-tuning uses curated examples to push the model toward preferred responses."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Enterprise assistants",
+            "description": "A company may fine-tune for domain style and workflow-specific response structure after prompt-only approaches prove too brittle.",
+            "impact": "The gain is consistency; the risk is over-specialization or accidental degradation outside the fine-tuned distribution."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "When is fine-tuning most justified?",
+            "options": [
+              "Any time you can write a prompt",
+              "When you need persistent behavior changes or domain specialization beyond prompt conditioning",
+              "Only when building image models",
+              "Whenever a benchmark score looks low"
+            ],
+            "correct_answer": "B",
+            "explanation": "Fine-tuning is a heavier intervention than prompting.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a major fine-tuning risk?",
+            "options": [
+              "The model becomes non-neural",
+              "Low-quality or narrow data can teach the wrong behavior and hurt general performance",
+              "It removes the need for evals",
+              "It makes inference impossible"
+            ],
+            "correct_answer": "B",
+            "explanation": "The model will internalize the biases and omissions of the tuning data.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is the key difference between prompting and fine-tuning?",
+            "options": [
+              "Prompting updates weights; fine-tuning does not",
+              "Fine-tuning changes parameters, while prompting only changes the current context",
+              "They are identical",
+              "Prompting only works with symbolic AI"
+            ],
+            "correct_answer": "B",
+            "explanation": "Prompting is contextual; fine-tuning is parametric.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "AGENTS",
+    "overview": "Planning, tool use, and multi-step execution",
+    "prerequisites": [
+      "Fine-Tuning"
+    ],
+    "steps": [
+      {
+        "title": "Beyond one-shot text generation",
+        "foundations": "Definitions first: an agent maintains state across multiple steps, a tool is an external capability like search or code execution, and a side effect is any action that changes the world beyond the model's internal text output. Verification means checking tool results before trusting or using them further.",
+        "standard_theory": "An agent is a system that can observe state, choose actions, call tools, evaluate outcomes, and continue over multiple steps. The key difference from a plain chatbot is not personality but control flow. Agents can search, write code, run commands, verify results, and revise plans. This makes them more useful but also less predictable, because each action can introduce new failure modes. Strong agent design therefore requires explicit state tracking, permission boundaries, and verification loops.",
+        "deep_theory": "An agent is not defined by tone or branding. It is defined by control flow. The system observes state, plans, chooses actions, calls tools, inspects results, and decides what to do next. This unlocks useful behavior such as debugging, research, and workflow automation. It also expands risk because every tool call introduces external failure modes, security boundaries, and side effects. Robust agent design therefore treats planning, permissioning, state management, and verification as first-class concerns. The interesting question is no longer whether the model can answer, but whether the surrounding system lets it act safely.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Agent control loop",
+            "code": "while not done:\n    plan = llm(state)\n    action = select_tool(plan)\n    observation = run_tool(action)\n    state = update(state, observation)",
+            "explanation": "The loop is what makes an agent iterative instead of purely reactive."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Software engineering agents",
+            "description": "Coding agents can inspect repositories, edit files, run tests, and explain tradeoffs over several iterations.",
+            "impact": "That power is useful only if the system checks its own work and respects execution boundaries."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What distinguishes an agent from a one-shot assistant?",
+            "options": [
+              "An agent always uses speech synthesis",
+              "An agent can maintain state and take multiple tool-mediated actions toward a goal",
+              "An agent is necessarily conscious",
+              "An agent never needs prompts"
+            ],
+            "correct_answer": "B",
+            "explanation": "The defining feature is iterative action under control flow.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why do tool-using agents create extra risk?",
+            "options": [
+              "Tools reduce accuracy",
+              "Each external action can fail, have side effects, or be exploited if permissions are loose",
+              "Agents cannot read text",
+              "State is irrelevant"
+            ],
+            "correct_answer": "B",
+            "explanation": "Execution power increases both usefulness and attack surface.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a robust agent practice?",
+            "options": [
+              "Skip verification to save latency",
+              "Use explicit state, tool boundaries, and result checking",
+              "Let the model invent tools freely",
+              "Avoid logging observations"
+            ],
+            "correct_answer": "B",
+            "explanation": "Reliability requires control and inspection.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Agent Design",
+          "description": "Describe one safeguard you would require before letting an AI agent execute code or call external APIs.",
+          "xp_reward": 90
+        },
+        "is_synthesis": false
+      },
+      {
+        "title": "Checkpoint: Agent Under Constraint",
+        "foundations": "Scenario setup: a customer asks for a billing correction and the agent has access to both knowledge documents and an API that can change account settings. The key distinction here is between reading and acting. Search and explanation are low-risk actions; account changes create side effects. That means permissioning, confirmation, and logging are not optional implementation details. They are the boundary between a useful assistant and a dangerous one.",
+        "standard_theory": "You are designing an agent that answers billing questions, can search internal docs, and may call an API that changes customer account settings. This checkpoint combines agents, context engineering, retrieval, and security. The goal is not maximum autonomy. The goal is to keep useful actions possible while making dangerous actions reviewable, auditable, and easy to block.",
+        "deep_theory": "You are designing an agent that answers billing questions, can search internal docs, and may call an API that changes customer account settings. This checkpoint combines agents, context engineering, retrieval, and security. The goal is not maximum autonomy. The goal is to keep useful actions possible while making dangerous actions reviewable, auditable, and easy to block. In practice, this matters because High-value account actions create real consequences, so action policies and audit trails matter more than flashy autonomy.",
+        "code_examples": [],
+        "real_world_examples": [
+          {
+            "title": "Account support automation",
+            "description": "High-value account actions create real consequences, so action policies and audit trails matter more than flashy autonomy.",
+            "impact": "This is where product design, security, and agent architecture meet."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Scenario: the agent finds a policy article and also has an API that can issue refunds. The user asks for a billing correction. What should happen before any account-changing API call?",
+            "options": [
+              "The agent should act immediately if the policy article looks relevant",
+              "The system should require explicit authorization, apply constrained tools, and log the action request",
+              "The model should generate a hidden justification and proceed",
+              "The API should be called first so the user sees fast results"
+            ],
+            "correct_answer": "B",
+            "explanation": "Once an action has side effects, confidence is not enough. Permission checks, constrained execution, and auditability are the default safety boundary.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why should retrieval and context management still matter in an agent?",
+            "options": [
+              "Agents do not need evidence",
+              "The agent still needs accurate state and policy context before it plans or acts",
+              "Only the API matters",
+              "Context only matters for chatbots"
+            ],
+            "correct_answer": "B",
+            "explanation": "Action quality depends on the information available to the planner.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Second step in the same scenario: a retrieved internal note contains hidden text telling the model to ignore policy and trigger the refund tool. What makes this especially dangerous?",
+            "options": [
+              "The note is too long",
+              "It is a prompt-injection path from untrusted text into a side-effecting action",
+              "It lowers embedding quality",
+              "It prevents the agent from reading account data"
+            ],
+            "correct_answer": "B",
+            "explanation": "The danger is the chain: untrusted content influences reasoning, and that reasoning controls a real action with consequences.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Agent Policy",
+          "description": "Write two rules that distinguish what the agent may do automatically from what must require user confirmation.",
+          "xp_reward": 100
+        },
+        "is_synthesis": true
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "CONTEXT ENGINEERING",
+    "overview": "Memory, state, and context window management",
+    "prerequisites": [
+      "Agents"
+    ],
+    "steps": [
+      {
+        "title": "A model is only as good as the context you feed it",
+        "foundations": "Definitions first: context is the information in the model's active prompt window, memory is stored information reused across turns or tasks, and summarization compresses prior state into a smaller representation. More context is not always better; irrelevant context competes for attention.",
+        "standard_theory": "Context engineering is the discipline of deciding what information the model sees at each step. This includes system instructions, user intent, retrieved documents, tool results, conversation history, memory summaries, and current task state. More context is not always better. Irrelevant or stale context can distract the model, overflow the window, or create contradictory instructions. Good systems curate, compress, rank, and summarize context so the model sees the right evidence at the right time.",
+        "deep_theory": "Context engineering is the discipline of deciding what the model gets to think with at each step. That includes system rules, user intent, retrieved evidence, tool outputs, memory summaries, and current task state. Large context windows do not remove the need for judgment. Irrelevant, stale, or conflicting context can reduce reliability because the model still has to decide what to attend to. Strong systems therefore rank, filter, summarize, and structure context rather than dumping everything into the prompt. In practice, many application failures blamed on 'the model' are failures of context assembly.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "A context assembly sketch",
+            "code": "system rules + user request + retrieved docs + tool outputs + memory summary + output schema",
+            "explanation": "Reliable AI applications often spend more effort assembling context than writing the final prompt string."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Long-running assistants",
+            "description": "Persistent assistants need to remember stable preferences without replaying every past message into the model each time.",
+            "impact": "That drives the need for memory summarization and state curation."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is context engineering?",
+            "options": [
+              "Adding more GPUs",
+              "Designing which information enters the model's context and in what form",
+              "Converting neural nets into rules",
+              "Avoiding retrieval"
+            ],
+            "correct_answer": "B",
+            "explanation": "It is about supplying the model with the right state and evidence.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why can too much context hurt performance?",
+            "options": [
+              "The model forgets tokenization",
+              "Irrelevant or conflicting information can distract the model and waste context budget",
+              "Attention only works on short prompts",
+              "Long prompts are always inaccurate"
+            ],
+            "correct_answer": "B",
+            "explanation": "Bigger context windows do not remove the need for curation.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a common solution for long conversations?",
+            "options": [
+              "Store nothing",
+              "Summarize or structure prior context into compact state",
+              "Repeat the entire transcript every turn",
+              "Only use zero-shot prompts"
+            ],
+            "correct_answer": "B",
+            "explanation": "Compression and memory management preserve the important parts.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "MULTIMODAL AI",
+    "overview": "Models that process text, images, audio, and more",
+    "prerequisites": [
+      "Context Engineering"
+    ],
+    "steps": [
+      {
+        "title": "Representations across modalities",
+        "foundations": "Definitions first: a modality is a type of data such as text, image, audio, or video. Multimodal alignment means learning representations that let information from one modality be related to information from another. The challenge is that each modality has different noise, structure, and evaluation criteria, so combining them increases both capability and failure complexity.",
+        "standard_theory": "Multimodal systems align or jointly model different data types such as text, images, audio, and video. The practical goal is not novelty but richer reasoning: describe an image, answer questions over a chart, transcribe speech, or generate visuals from text. The technical challenge is building compatible representations and objectives across modalities with very different structure and noise characteristics. Evaluation also becomes harder because outputs can be judged on correctness, style, safety, and faithfulness to the prompt.",
+        "deep_theory": "Multimodal systems align or jointly model different data types such as text, images, audio, and video. The practical goal is not novelty but richer reasoning: describe an image, answer questions over a chart, transcribe speech, or generate visuals from text. The technical challenge is building compatible representations and objectives across modalities with very different structure and noise characteristics. Evaluation also becomes harder because outputs can be judged on correctness, style, safety, and faithfulness to the prompt. In practice, this matters because A multimodal model can read forms, charts, handwriting, and surrounding text together instead of using isolated OCR plus heuristics.",
+        "code_examples": [
+          {
+            "language": "python",
+            "title": "Cross-modal retrieval idea",
+            "code": "image_vec = image_encoder(image)\ntext_vec = text_encoder(caption)\nscore = cosine_similarity(image_vec, text_vec)",
+            "explanation": "Aligned embedding spaces let the system compare information across modalities."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Document intelligence",
+            "description": "A multimodal model can read forms, charts, handwriting, and surrounding text together instead of using isolated OCR plus heuristics.",
+            "impact": "This unlocks more useful workflows but also raises harder evaluation and privacy questions."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What does multimodal mean in AI?",
+            "options": [
+              "The model uses multiple CPUs",
+              "The system can process or generate across more than one data modality",
+              "The system has multiple users",
+              "The dataset has multiple files"
+            ],
+            "correct_answer": "B",
+            "explanation": "Modalities include text, images, audio, video, and more.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why are multimodal systems challenging?",
+            "options": [
+              "Different modalities have different structure, noise, and evaluation criteria",
+              "Images cannot be represented numerically",
+              "Audio cannot be trained jointly with text",
+              "They do not need safety review"
+            ],
+            "correct_answer": "A",
+            "explanation": "Cross-modal alignment and evaluation are nontrivial.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which task is multimodal?",
+            "options": [
+              "Summarizing a plain text memo",
+              "Answering a question about a plotted graph image using both visual and textual cues",
+              "Running k-means on customer vectors",
+              "Calculating a mean"
+            ],
+            "correct_answer": "B",
+            "explanation": "The model must integrate information from different modalities.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "GENERATIVE MEDIA",
+    "overview": "Diffusion, video generation, and control challenges",
+    "prerequisites": [
+      "Multimodal AI"
+    ],
+    "steps": [
+      {
+        "title": "Generating content is an optimization problem too",
+        "foundations": "Definitions first: diffusion generation starts from noise and repeatedly predicts how to denoise toward a plausible sample. Temporal consistency in video means the object, motion, and scene logic stay coherent across frames rather than only looking good one frame at a time. This lesson matters because human viewers often over-trust first-glance realism and under-check consistency, provenance, or rights issues.",
+        "standard_theory": "Modern image generation often uses diffusion models, which learn to reverse a noise process and iteratively denoise toward a coherent sample. Video generation extends this challenge across time, where the system must preserve temporal consistency, object identity, motion, and scene logic. Generative media systems are impressive because they model high-dimensional distributions, but they also surface hard problems in control, copyright, provenance, and evaluation. Looking good at a glance is not the same as being physically or semantically consistent.",
+        "deep_theory": "Modern image generation often uses diffusion models, which learn to reverse a noise process and iteratively denoise toward a coherent sample. Video generation extends this challenge across time, where the system must preserve temporal consistency, object identity, motion, and scene logic. Generative media systems are impressive because they model high-dimensional distributions, but they also surface hard problems in control, copyright, provenance, and evaluation. Looking good at a glance is not the same as being physically or semantically consistent. In practice, this matters because Designers use generative image systems to explore concepts quickly, but final production still needs human review for consistency and rights issues.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Diffusion intuition",
+            "code": "start from noise -> predict denoising direction -> repeat many times -> decode final sample",
+            "explanation": "Diffusion treats generation as iterative refinement from noise rather than one-step decoding."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Creative tooling",
+            "description": "Designers use generative image systems to explore concepts quickly, but final production still needs human review for consistency and rights issues.",
+            "impact": "These tools accelerate ideation more reliably than they replace full end-to-end creative pipelines."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is a defining idea behind diffusion models?",
+            "options": [
+              "They classify images into topics",
+              "They learn to iteratively denoise samples from noise toward data-like outputs",
+              "They only memorize training pictures",
+              "They require no objective function"
+            ],
+            "correct_answer": "B",
+            "explanation": "Generation is framed as reversing a noise process.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is video generation harder than image generation?",
+            "options": [
+              "Videos cannot be tokenized",
+              "The system must maintain coherence across frames over time",
+              "Images have more pixels than videos",
+              "Videos do not need prompts"
+            ],
+            "correct_answer": "B",
+            "explanation": "Temporal consistency is a major additional constraint.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a recurring risk in generative media systems?",
+            "options": [
+              "They always output identical content",
+              "Surface realism can hide factual, physical, or legal problems",
+              "They cannot be guided",
+              "They never require evaluation"
+            ],
+            "correct_answer": "B",
+            "explanation": "Visual quality alone is a poor proxy for trustworthiness.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Consistency Audit",
+          "description": "Describe one reason a generated video might look good frame by frame but still fail as a coherent clip.",
+          "xp_reward": 90
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "MLOPS",
+    "overview": "Serving, monitoring, and operating AI systems in production",
+    "prerequisites": [
+      "Generative Media"
+    ],
+    "steps": [
+      {
+        "title": "A useful model is a maintained system",
+        "foundations": "Definitions first: deployment means serving the model to real users or systems, monitoring tracks live behavior and metrics after release, drift means the incoming data or user behavior changes over time, and rollback is the ability to quickly return to a safer version.",
+        "standard_theory": "Production AI is not just training a model and exposing an endpoint. You need data pipelines, versioning, evaluation suites, deployment strategies, observability, rollback plans, cost controls, and incident response. Data can drift, user behavior can shift, prompts can mutate, and external tools can fail. Mature teams treat models as evolving software systems with operational risk rather than magical artifacts that remain valid after launch.",
+        "deep_theory": "MLOps is what turns a trained model into an operated system. It includes data pipelines, versioned artifacts, evaluations, deployment strategies, monitoring, incident response, and retraining decisions. The lesson is that production behavior is dynamic. User behavior shifts, prompts mutate, external tools change, and attackers adapt. A model that looked good in staging can silently degrade in production unless you track the right metrics and maintain rollback paths. Operational maturity is therefore part of model quality, not an afterthought added by another team.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Production loop",
+            "code": "collect data -> train/evaluate -> deploy -> monitor -> investigate failures -> retrain or rollback",
+            "explanation": "Reliable systems close the loop between live behavior and model updates."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Fraud detection",
+            "description": "Fraud patterns change as attackers adapt, so model quality degrades unless monitoring and retraining keep pace.",
+            "impact": "Operational discipline is what keeps a once-good model useful over time."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is a core MLOps concern?",
+            "options": [
+              "Choosing a logo",
+              "Monitoring model behavior after deployment for drift, failures, and regressions",
+              "Removing evaluation from the workflow",
+              "Avoiding version control"
+            ],
+            "correct_answer": "B",
+            "explanation": "Production models need ongoing operational oversight.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why is rollback important?",
+            "options": [
+              "Every new model is automatically worse",
+              "A bad deployment needs a fast path back to a safer version",
+              "Rollbacks improve training loss",
+              "They replace testing"
+            ],
+            "correct_answer": "B",
+            "explanation": "Operational resilience depends on rapid recovery.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What does data drift mean?",
+            "options": [
+              "The file changed location",
+              "The distribution of incoming data shifts relative to training conditions",
+              "The GPU fan is noisy",
+              "The labels disappear"
+            ],
+            "correct_answer": "B",
+            "explanation": "Changing input distributions can degrade model quality unexpectedly.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "SECURITY",
+    "overview": "Adversarial attacks, prompt injection, and model abuse",
+    "prerequisites": [
+      "MLOps"
+    ],
+    "steps": [
+      {
+        "title": "Power creates attack surface",
+        "foundations": "Definitions first: prompt injection is when untrusted text tries to steer the model away from intended instructions, data exfiltration is unauthorized leakage of information, and least privilege means giving the system only the minimum permissions required to do its job. In AI systems, plain text can function like an attack vector.",
+        "standard_theory": "AI systems can be attacked at many layers: poisoned training data, adversarial examples, prompt injection, data exfiltration, jailbreak attempts, model theft, tool misuse, and insecure integrations. A strong model does not imply a secure application. Security depends on isolating untrusted inputs, constraining tools, validating outputs, minimizing privileges, and treating prompts and retrieved content as potentially hostile. The lesson is simple: once a model can take action, ordinary software security becomes even more important.",
+        "deep_theory": "AI security sits across the entire stack: training data, prompts, retrieval, tools, external actions, and output handling. Prompt injection matters because language models are optimized to follow textual patterns that look like instructions, even when those patterns come from hostile content. Tool-enabled systems amplify the risk because a compromised reasoning step can trigger real-world actions. Strong defenses include least privilege, explicit trust boundaries, isolation of untrusted content, output validation, and auditable approval paths for dangerous actions. The broader lesson is that language interfaces do not replace traditional security engineering; they increase the need for it.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "A defensive rule of thumb",
+            "code": "Never let untrusted retrieved text silently override system instructions or execute actions without validation.",
+            "explanation": "Prompt injection is dangerous because the model often treats text as instruction-like by default."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Browsing assistants",
+            "description": "A malicious webpage can include text that tries to manipulate the model into revealing secrets or taking unintended actions.",
+            "impact": "This is why tool-enabled systems need isolation and explicit policy enforcement."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is prompt injection?",
+            "options": [
+              "A training optimization method",
+              "An attack where untrusted content tries to steer the model away from intended instructions",
+              "A compression algorithm",
+              "A type of hardware failure"
+            ],
+            "correct_answer": "B",
+            "explanation": "The attacker exploits the model's tendency to follow textual instructions.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why are tool-using AI systems especially sensitive to security design?",
+            "options": [
+              "Tools make the model slower",
+              "A compromised decision can trigger real side effects like API calls, code execution, or data access",
+              "Tool use removes all prompt risk",
+              "Attackers cannot interact with tools"
+            ],
+            "correct_answer": "B",
+            "explanation": "Capability increases consequence.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a good default defense?",
+            "options": [
+              "Give the model full admin access",
+              "Treat external text and tool outputs as untrusted and validate before acting",
+              "Hide logs from operators",
+              "Avoid all retrieval"
+            ],
+            "correct_answer": "B",
+            "explanation": "Security begins with minimizing trust in uncontrolled inputs.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Abuse Scenario",
+          "description": "Write one concrete design rule you would apply to stop a prompt-injected document from triggering a dangerous action.",
+          "xp_reward": 100
+        },
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "ETHICS AND FAIRNESS",
+    "overview": "Bias, harm, and responsible evaluation",
+    "prerequisites": [
+      "Security"
+    ],
+    "steps": [
+      {
+        "title": "Performance is not the only metric",
+        "foundations": "Definitions first: bias is systematic distortion or unequal treatment, calibration asks whether predicted confidence matches reality, and subgroup analysis measures performance separately for different populations or cases. A model can look good on average while performing harmfully for a minority group.",
+        "standard_theory": "AI systems inherit values and distortions from data, labels, objectives, and deployment context. Bias is not just offensive language; it can appear as unequal error rates, miscalibration, exclusion, surveillance harm, accessibility failures, or unjustified automation of high-stakes decisions. Responsible AI work therefore requires asking who is represented, who is harmed by mistakes, whether human appeal exists, and how metrics differ across groups. Fairness is not solved by one number, but it must be investigated deliberately.",
+        "deep_theory": "Ethics and fairness are not separate from system design; they are ways of evaluating whose errors matter, whose outcomes are optimized, and whose harms are ignored. Bias can enter through historical data, labeling conventions, proxy variables, deployment decisions, or feedback loops created after launch. That is why overall accuracy is often a misleading comfort metric. Responsible teams examine subgroup behavior, document limitations, preserve avenues for human review, and ask whether the task should be automated at all. Technical performance is only one part of legitimacy.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Evaluation mindset",
+            "code": "overall accuracy + subgroup metrics + error analysis + human review + deployment constraints",
+            "explanation": "A model can look good on average while failing badly for a specific population."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Hiring systems",
+            "description": "A resume screener trained on biased historical outcomes can amplify past discrimination even if it appears efficient.",
+            "impact": "This is why dataset provenance and subgroup evaluation matter."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Why is overall accuracy insufficient in many real deployments?",
+            "options": [
+              "Because averages can hide serious failures for specific groups or cases",
+              "Because accuracy is never used",
+              "Because fairness means ignoring errors",
+              "Because subgroup analysis is impossible"
+            ],
+            "correct_answer": "A",
+            "explanation": "Aggregate performance can conceal uneven harm.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is one source of bias?",
+            "options": [
+              "Only the model architecture",
+              "Historical data and labels that reflect past inequities",
+              "Using evaluation metrics",
+              "Version control"
+            ],
+            "correct_answer": "B",
+            "explanation": "Bias often enters through data and labeling processes.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a responsible design practice?",
+            "options": [
+              "Automate high-stakes decisions with no human recourse",
+              "Measure subgroup behavior and provide human review or appeal in sensitive contexts",
+              "Never document limitations",
+              "Assume neutrality because the model is mathematical"
+            ],
+            "correct_answer": "B",
+            "explanation": "Responsible systems surface limits and keep humans in the loop where stakes are high.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "GOVERNANCE",
+    "overview": "Policy, accountability, and risk management",
+    "prerequisites": [
+      "Ethics and Fairness"
+    ],
+    "steps": [
+      {
+        "title": "Who is accountable when systems scale?",
+        "foundations": "Definitions first: governance is the set of policies, accountability rules, and documentation practices surrounding AI use. Auditability means others can inspect how the system was built and evaluated, and incident ownership means a specific person or team is responsible when something fails.",
+        "standard_theory": "Governance is the organizational and regulatory layer around AI deployment. It includes risk classification, auditability, documentation, privacy controls, usage restrictions, incident handling, and assignment of responsibility. Good governance does not exist to slow engineering for its own sake; it exists because powerful systems affect real people and institutions. If nobody can explain what data was used, what limitations are known, or who can shut the system down, then the organization is not in control of its AI stack.",
+        "deep_theory": "Governance is how an organization proves it is in control of its AI systems rather than merely using them. It includes model cards, data documentation, risk classification, access control, monitoring obligations, escalation rules, and named accountability. This is not bureaucratic ornament. Once systems affect money, safety, access, or public trust, governance determines whether the organization can justify deployment, investigate failures, and shut systems down when needed. Good governance therefore turns abstract responsibility into operational mechanisms.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Governance artifacts",
+            "code": "model card + data documentation + eval reports + access policy + incident owner",
+            "explanation": "Governance becomes concrete through operational artifacts and decision rights."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Regulated industries",
+            "description": "Banks and healthcare organizations need records showing how models were validated, monitored, and constrained before they can safely deploy them.",
+            "impact": "Governance is part of shipping, not paperwork after the fact."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is a central governance goal?",
+            "options": [
+              "Making every model open source",
+              "Ensuring accountability, documentation, and risk controls around AI use",
+              "Removing all human oversight",
+              "Replacing security review"
+            ],
+            "correct_answer": "B",
+            "explanation": "Governance defines who is responsible and how risk is managed.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Why are model cards or similar documentation useful?",
+            "options": [
+              "They increase token count",
+              "They record intended use, limitations, and evaluation context for operators and reviewers",
+              "They fine-tune the model automatically",
+              "They eliminate legal obligations"
+            ],
+            "correct_answer": "B",
+            "explanation": "Documentation supports safe deployment and auditing.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What does poor governance look like?",
+            "options": [
+              "Clear incident ownership and rollback plans",
+              "Well-defined access controls",
+              "No one knows what the model was trained on or who can disable it",
+              "Routine evaluation updates"
+            ],
+            "correct_answer": "C",
+            "explanation": "Lack of accountability is a governance failure.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "SCALING",
+    "overview": "Training at scale and the systems behind frontier models",
+    "prerequisites": [
+      "Governance"
+    ],
+    "steps": [
+      {
+        "title": "Bigger models require systems thinking",
+        "foundations": "Definitions first: distributed training spreads work across many devices or machines, checkpointing saves recoverable training state, and throughput is the rate at which data and updates move through the system. At large scale, system coordination becomes part of model performance.",
+        "standard_theory": "Training frontier AI models is a distributed systems problem as much as an ML problem. You need large datasets, parallel training, optimized communication, memory-efficient techniques, checkpointing, fault tolerance, and careful evaluation at multiple scales. Scaling laws suggest that performance can improve predictably with more data and compute, but only when the optimization and data pipeline remain healthy. The engineering challenge is balancing capability gains against cost, latency, reliability, and environmental impact.",
+        "deep_theory": "Training frontier-scale models is as much a distributed systems problem as an ML problem. Data pipelines must keep accelerators fed, communication layers must synchronize gradients efficiently, checkpoints must survive failure, and evaluation must keep pace with growing model size. Scaling laws suggest predictable gains under certain conditions, but those gains only materialize when the data, optimization, and systems stack are all healthy. The engineering tradeoff is not simply larger versus smaller. It is capability versus cost, latency, fault tolerance, and operational complexity.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "Scale concerns",
+            "code": "data throughput + distributed optimization + checkpoint recovery + eval harness + serving cost",
+            "explanation": "Large-scale ML succeeds only when multiple systems layers work together."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Frontier model training",
+            "description": "A single failure in data sharding, checkpoint recovery, or cluster communication can waste massive compute budgets.",
+            "impact": "Scaling is therefore an engineering discipline, not just a parameter count race."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Why is large-scale training also a systems problem?",
+            "options": [
+              "Because models stop using statistics",
+              "Data movement, parallelism, memory, and fault tolerance become critical engineering constraints",
+              "Bigger models require fewer evaluations",
+              "Only the optimizer matters"
+            ],
+            "correct_answer": "B",
+            "explanation": "At scale, system design determines whether training is feasible.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What do scaling laws roughly describe?",
+            "options": [
+              "How ethics improves automatically with size",
+              "How performance trends with increases in model size, data, and compute under certain conditions",
+              "How every model becomes an agent",
+              "Why retrieval is obsolete"
+            ],
+            "correct_answer": "B",
+            "explanation": "They are empirical patterns, not guarantees of universal intelligence.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What is a practical tradeoff in scaling?",
+            "options": [
+              "Capability gains versus cost, latency, and operational complexity",
+              "Vector size versus keyboard layout",
+              "Prompt length versus compiler version",
+              "Fairness versus documentation"
+            ],
+            "correct_answer": "A",
+            "explanation": "Larger systems can improve performance but become more expensive and harder to operate.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": null,
+        "is_synthesis": false
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "SYNTHESIS",
+    "overview": "Putting the whole AI stack together",
+    "prerequisites": [
+      "Scaling"
+    ],
+    "steps": [
+      {
+        "title": "What mastery should look like now",
+        "foundations": "Definitions first: synthesis means combining multiple concepts into one design judgment. By this point you should be able to connect objectives, representations, grounding, security, evaluation, operations, and governance instead of treating them as unrelated modules.",
+        "standard_theory": "You should now be able to reason across the AI stack: define tasks and objectives, distinguish symbolic and learned methods, explain supervised and unsupervised learning, understand neural training and architectures, describe transformers, embeddings, LLM behavior, prompting, RAG, fine-tuning, agents, context engineering, multimodality, MLOps, security, ethics, governance, and scaling. Real mastery is not memorizing jargon. It is being able to predict where a system will fail, what evidence would validate it, and what guardrails are required before deployment.",
+        "deep_theory": "Real AI mastery is systems reasoning. You should now be able to define the task, choose an appropriate modeling approach, understand what the model optimizes, decide when grounding or tool use is required, design evaluation beyond superficial benchmarks, anticipate security and fairness failures, and operate the result responsibly. Strong practitioners do not confuse an impressive demo with a dependable system. They ask what evidence would justify trust, what could go wrong, and what control mechanisms exist when it does.",
+        "code_examples": [
+          {
+            "language": "text",
+            "title": "A mature AI workflow",
+            "code": "problem definition -> data and eval design -> model choice -> grounding/tooling -> deployment -> monitoring -> governance",
+            "explanation": "Strong practitioners think in lifecycle terms, not isolated model demos."
+          }
+        ],
+        "real_world_examples": [
+          {
+            "title": "Production reality",
+            "description": "The strongest teams combine model capability with evaluation, product clarity, operational discipline, and explicit risk controls.",
+            "impact": "That is what separates an impressive demo from a dependable AI system."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "What is the best indicator that someone truly understands AI systems?",
+            "options": [
+              "They can recite many model names",
+              "They can explain objectives, failure modes, evaluation strategy, and operational guardrails",
+              "They always choose the biggest model",
+              "They avoid documentation"
+            ],
+            "correct_answer": "B",
+            "explanation": "Real understanding connects capability to constraints and validation.",
+            "xp_reward": 40
+          },
+          {
+            "question": "Which statement best summarizes this curriculum?",
+            "options": [
+              "AI is mostly about writing clever prompts",
+              "AI mastery means combining modeling knowledge with evaluation, systems design, and responsible deployment",
+              "AI is solved if the benchmark score is high",
+              "Only training matters once a model is large"
+            ],
+            "correct_answer": "B",
+            "explanation": "Useful AI work spans the full lifecycle.",
+            "xp_reward": 40
+          },
+          {
+            "question": "What should you do when an AI system seems impressive but unreliable?",
+            "options": [
+              "Deploy it broadly and hope for the best",
+              "Analyze grounding, objectives, evaluation gaps, and operational safeguards before trusting it",
+              "Assume the model will self-correct",
+              "Ignore user feedback"
+            ],
+            "correct_answer": "B",
+            "explanation": "Skeptical, evidence-based reasoning is part of mastery.",
+            "xp_reward": 40
+          }
+        ],
+        "challenge": {
+          "title": "Final Reflection",
+          "description": "Write a short paragraph on what changed in your understanding of AI: capability, risk, and what makes a system trustworthy.",
+          "xp_reward": 120
+        },
+        "is_synthesis": true
+      }
+    ]
+  }
+]
